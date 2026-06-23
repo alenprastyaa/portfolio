@@ -4,7 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
     <title>Software Engineer Portfolio &amp; CMS</title>
+    <script>
+        (() => {
+            try {
+                const savedTheme = localStorage.getItem('portfolio-theme');
+                const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                const theme = savedTheme || systemTheme;
+                document.documentElement.dataset.theme = theme;
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#080b12' : '#ffffff');
+            } catch {
+                document.documentElement.dataset.theme = 'light';
+            }
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -1295,6 +1309,499 @@
                 padding: 4rem 0;
             }
         }
+
+        /* Global theme control */
+        .theme-toggle {
+            display: inline-grid;
+            width: 2.35rem;
+            height: 2.35rem;
+            padding: 0;
+            place-items: center;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        .theme-toggle:hover,
+        .theme-toggle:focus-visible {
+            border-color: var(--muted);
+            background: var(--surface-soft);
+            color: var(--text);
+        }
+
+        .theme-toggle i {
+            font-size: 0.82rem;
+        }
+
+        .admin-login-theme-toggle {
+            position: fixed;
+            z-index: 20;
+            top: 1.25rem;
+            right: 1.25rem;
+        }
+
+        body,
+        .topbar,
+        .hero-shell,
+        .hero-panel,
+        .info-card,
+        .service-card,
+        .testimonial-card,
+        .article-card,
+        .skill-card,
+        .project-card,
+        .dashboard-card,
+        .cms-panel-card,
+        .admin-login-card,
+        .modal-content,
+        .form-control,
+        .form-select,
+        .input-group-text,
+        .about-detail-card,
+        .about-tag,
+        .project-form-section,
+        .project-side-card,
+        .project-modal-body,
+        .project-modal-footer,
+        .swal2-popup {
+            transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+        }
+
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --bg: #080b12;
+            --surface: #111722;
+            --surface-soft: #0d131d;
+            --surface-dark: #05070c;
+            --text: #e7ecf3;
+            --muted: #94a3b8;
+            --line: #263244;
+            --primary: #f1f5f9;
+            --primary-dark: #cbd5e1;
+            --accent: #475569;
+            --highlight: #172554;
+            --brand-blue: #7aa2ff;
+            --shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        }
+
+        [data-theme="dark"] body {
+            background: var(--bg);
+            color: var(--text);
+            --bs-body-color: var(--text);
+            --bs-body-bg: var(--bg);
+            --bs-border-color: var(--line);
+        }
+
+        [data-theme="dark"] .text-dark,
+        [data-theme="dark"] .link-dark {
+            color: var(--text) !important;
+        }
+
+        [data-theme="dark"] .border,
+        [data-theme="dark"] .border-top,
+        [data-theme="dark"] .border-bottom,
+        [data-theme="dark"] hr {
+            border-color: var(--line) !important;
+        }
+
+        [data-theme="dark"] a:not(.btn):not(.nav-link):not(.navbar-brand) {
+            color: #93b4ff;
+        }
+
+        [data-theme="dark"] .btn-primary,
+        [data-theme="dark"] .btn-dark {
+            border-color: #e2e8f0;
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        [data-theme="dark"] .btn-primary:hover,
+        [data-theme="dark"] .btn-primary:focus,
+        [data-theme="dark"] .btn-dark:hover,
+        [data-theme="dark"] .btn-dark:focus {
+            border-color: #fff;
+            background: #fff;
+            color: #020617;
+        }
+
+        [data-theme="dark"] .btn-outline-dark,
+        [data-theme="dark"] .btn-outline-secondary {
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+
+        [data-theme="dark"] .btn-outline-dark:hover,
+        [data-theme="dark"] .btn-outline-secondary:hover {
+            border-color: #cbd5e1;
+            background: #cbd5e1;
+            color: #0f172a;
+        }
+
+        [data-theme="dark"] .btn-light {
+            border-color: #334155 !important;
+            background: #182131;
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .form-control,
+        [data-theme="dark"] .form-select,
+        [data-theme="dark"] .input-group-text {
+            border-color: #334155;
+            background-color: #0b111b;
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .form-control::placeholder {
+            color: #64748b;
+            opacity: 1;
+        }
+
+        [data-theme="dark"] .form-control:focus,
+        [data-theme="dark"] .form-select:focus {
+            border-color: #64748b;
+            background-color: #0d1522;
+            color: #f8fafc;
+            box-shadow: 0 0 0 0.2rem rgba(122, 162, 255, 0.13);
+        }
+
+        [data-theme="dark"] .form-check-input {
+            border-color: #475569;
+            background-color: #1e293b;
+        }
+
+        [data-theme="dark"] .form-check-input:checked {
+            border-color: #7aa2ff;
+            background-color: #7aa2ff;
+        }
+
+        [data-theme="dark"] .table {
+            --bs-table-color: #dbe4ef;
+            --bs-table-bg: transparent;
+            --bs-table-border-color: #273345;
+            --bs-table-hover-color: #f8fafc;
+            --bs-table-hover-bg: rgba(255, 255, 255, 0.035);
+            margin-bottom: 0;
+        }
+
+        [data-theme="dark"] .table > thead {
+            color: #94a3b8;
+        }
+
+        [data-theme="dark"] .table-light {
+            --bs-table-bg: #172033;
+            --bs-table-color: #f1f5f9;
+            --bs-table-border-color: #2a3950;
+        }
+
+        [data-theme="dark"] .pagination {
+            --bs-pagination-bg: #111722;
+            --bs-pagination-border-color: #263244;
+            --bs-pagination-color: #cbd5e1;
+            --bs-pagination-hover-bg: #1b2534;
+            --bs-pagination-hover-color: #fff;
+            --bs-pagination-active-bg: #e2e8f0;
+            --bs-pagination-active-border-color: #e2e8f0;
+            --bs-pagination-active-color: #0f172a;
+            --bs-pagination-disabled-bg: #0d131d;
+            --bs-pagination-disabled-border-color: #263244;
+        }
+
+        [data-theme="dark"] .landing-page .topbar {
+            background: rgba(8, 11, 18, 0.88);
+            border-bottom-color: #202b3a;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        [data-theme="dark"] .landing-page .site-brand,
+        [data-theme="dark"] .landing-page .topbar.navbar-dark .navbar-nav .nav-link {
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .landing-page .brand-mark {
+            border-color: #dbe4ef;
+            background: #e7ecf3;
+            color: #080b12;
+        }
+
+        [data-theme="dark"] .landing-page .topbar.navbar-dark .navbar-nav .nav-link:hover {
+            color: #93b4ff;
+        }
+
+        [data-theme="dark"] .landing-page .topbar .btn-outline-light {
+            border-color: #334155;
+            color: #dbe4ef;
+        }
+
+        [data-theme="dark"] .landing-page .topbar .btn-outline-light:hover {
+            border-color: #dbe4ef;
+            background: #dbe4ef;
+            color: #0f172a;
+        }
+
+        [data-theme="dark"] .landing-page .navbar-toggler {
+            border-color: #334155;
+            filter: none;
+        }
+
+        [data-theme="dark"] .landing-page .hero-shell {
+            background: #0e1520;
+        }
+
+        [data-theme="dark"] .landing-page .eyebrow,
+        [data-theme="dark"] .landing-page .hero-section h3,
+        [data-theme="dark"] .landing-page .hero-title {
+            color: #f4f7fb;
+        }
+
+        [data-theme="dark"] .landing-page .hero-subtitle,
+        [data-theme="dark"] .landing-page .section-kicker {
+            color: #9caabd;
+        }
+
+        [data-theme="dark"] .landing-page .hero-panel {
+            border: 1px solid #273345;
+            background: #151d29;
+            color: #eef2f7;
+        }
+
+        [data-theme="dark"] .hero-media {
+            background: #202b3a;
+        }
+
+        [data-theme="dark"] .hero-media-placeholder,
+        [data-theme="dark"] .caption-label {
+            color: #8492a6;
+        }
+
+        [data-theme="dark"] .round-link {
+            background: #e7ecf3;
+            color: #080b12;
+        }
+
+        [data-theme="dark"] .landing-page .metric-grid,
+        [data-theme="dark"] .landing-page .metric-card,
+        [data-theme="dark"] .landing-page .metric-card:nth-child(-n+2) {
+            border-color: #2a3648;
+        }
+
+        [data-theme="dark"] .landing-page .metric-card {
+            color: #eef2f7;
+        }
+
+        [data-theme="dark"] .landing-page .metric-card .small {
+            color: #8f9daf;
+        }
+
+        [data-theme="dark"] #skills,
+        [data-theme="dark"] #layanan,
+        [data-theme="dark"] #artikel {
+            background: #0b1019;
+        }
+
+        [data-theme="dark"] .landing-page .info-card,
+        [data-theme="dark"] .landing-page .service-card,
+        [data-theme="dark"] .landing-page .testimonial-card,
+        [data-theme="dark"] .landing-page .article-card,
+        [data-theme="dark"] .landing-page .skill-card,
+        [data-theme="dark"] .landing-page .project-card,
+        [data-theme="dark"] .landing-page #skills .skill-card,
+        [data-theme="dark"] .landing-page #layanan .service-card,
+        [data-theme="dark"] .landing-page #artikel .article-card {
+            border: 1px solid #222e3e;
+            background: #111823;
+        }
+
+        [data-theme="dark"] .about-profile-card {
+            border: 1px solid #273345;
+            background: #111823;
+        }
+
+        [data-theme="dark"] .about-detail-card {
+            border: 1px solid #222e3e;
+            background: #0f1621;
+        }
+
+        [data-theme="dark"] .about-icon,
+        [data-theme="dark"] .about-profile-card .about-icon {
+            background: #263244;
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .about-tag {
+            border-color: #334155;
+            background: #182131;
+            color: #cbd5e1;
+        }
+
+        [data-theme="dark"] .landing-page .project-card .bg-danger {
+            background-color: #334155 !important;
+        }
+
+        [data-theme="dark"] .landing-page .form-control,
+        [data-theme="dark"] .landing-page .input-group-text {
+            border-color: #344156;
+            background: #101824;
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .landing-page .contact-shell {
+            border: 1px solid #243145;
+            background: #080d15;
+        }
+
+        [data-theme="dark"] .landing-page .contact-shell .form-control {
+            border-color: #344156;
+            background: #111a28;
+        }
+
+        [data-theme="dark"] .dashboard-card,
+        [data-theme="dark"] .cms-panel-card,
+        [data-theme="dark"] .admin-login-card,
+        [data-theme="dark"] .modal-content {
+            border-color: #263244;
+            background: #111722;
+            color: #e7ecf3;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.26);
+        }
+
+        [data-theme="dark"] .sidebar {
+            border-right-color: #263244;
+            background: #0b1019;
+        }
+
+        [data-theme="dark"] .sidebar .nav-link {
+            color: #8f9daf;
+        }
+
+        [data-theme="dark"] .sidebar .nav-link.active,
+        [data-theme="dark"] .sidebar .nav-link:hover {
+            background: #1b2636;
+            color: #f8fafc;
+        }
+
+        [data-theme="dark"] .project-modal-header {
+            border-bottom: 1px solid #2b384c;
+            background: #0a0f18;
+        }
+
+        [data-theme="dark"] .project-modal-body {
+            background: #0b1019;
+        }
+
+        [data-theme="dark"] .project-form-section,
+        [data-theme="dark"] .project-side-card {
+            border-color: #273345;
+            background: #111925;
+        }
+
+        [data-theme="dark"] .project-section-icon {
+            background: #202b3a;
+            color: #dbe4ef;
+        }
+
+        [data-theme="dark"] .project-section-heading h6,
+        [data-theme="dark"] .project-modal-content .form-label,
+        [data-theme="dark"] .project-upload-empty strong,
+        [data-theme="dark"] .project-toggle-copy strong {
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .project-section-heading p,
+        [data-theme="dark"] .project-upload-empty span,
+        [data-theme="dark"] .project-toggle-copy span,
+        [data-theme="dark"] .project-modal-footer-note {
+            color: #8f9daf;
+        }
+
+        [data-theme="dark"] .project-modal-content .form-control {
+            border-color: #334155;
+            background: #0b111b;
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .project-upload-zone {
+            border-color: #3a4960;
+            background: #0c131e;
+        }
+
+        [data-theme="dark"] .project-upload-zone:hover {
+            border-color: #718096;
+            background: #121c2a;
+        }
+
+        [data-theme="dark"] .project-upload-empty i,
+        [data-theme="dark"] .project-thumbnail-preview,
+        [data-theme="dark"] .project-divider-label::before,
+        [data-theme="dark"] .project-divider-label::after {
+            background: #263244;
+            color: #dbe4ef;
+        }
+
+        [data-theme="dark"] .project-upload-progress {
+            background: #152442;
+            color: #a9c3ff;
+        }
+
+        [data-theme="dark"] .project-toggle-card + .project-toggle-card,
+        [data-theme="dark"] .project-modal-footer {
+            border-color: #273345;
+        }
+
+        [data-theme="dark"] .project-modal-footer {
+            background: #0f1621;
+        }
+
+        [data-theme="dark"] .modal-header,
+        [data-theme="dark"] .modal-footer {
+            border-color: #263244;
+        }
+
+        [data-theme="dark"] .btn-close {
+            filter: invert(1) grayscale(1) brightness(1.8);
+        }
+
+        [data-theme="dark"] .project-modal-header .btn-close {
+            filter: none;
+        }
+
+        [data-theme="dark"] .swal2-popup {
+            border: 1px solid #2a3749;
+            background: #111722;
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .swal2-title,
+        [data-theme="dark"] .swal2-html-container {
+            color: #e7ecf3;
+        }
+
+        [data-theme="dark"] .swal2-close {
+            color: #94a3b8;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body,
+            .topbar,
+            .hero-shell,
+            .hero-panel,
+            .info-card,
+            .service-card,
+            .testimonial-card,
+            .article-card,
+            .skill-card,
+            .project-card,
+            .dashboard-card,
+            .cms-panel-card,
+            .admin-login-card,
+            .modal-content,
+            .form-control,
+            .form-select,
+            .input-group-text {
+                transition: none;
+            }
+        }
     </style>
 </head>
 
@@ -1324,6 +1831,13 @@
                             <li v-if="sectionVisible('showTestimoni')" class="nav-item"><a class="nav-link" href="#testimoni">Testimonials</a></li>
                             <li v-if="sectionVisible('showArtikel')" class="nav-item"><a class="nav-link" href="#artikel">Articles</a></li>
                             <li v-if="sectionVisible('showKontak')" class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
+                            <li class="nav-item ms-lg-2">
+                                <button type="button" class="theme-toggle" @click="toggleTheme"
+                                    :title="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
+                                    :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'">
+                                    <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                                </button>
+                            </li>
                             <li class="nav-item ms-lg-3"><button class="btn btn-outline-light btn-sm"
                                     @click="toggleView(true)">CMS Admin</button></li>
                         </ul>
@@ -1657,6 +2171,11 @@
         </div>
 
         <div v-if="isAdminView && !token" class="container py-5 mt-5">
+            <button type="button" class="theme-toggle admin-login-theme-toggle" @click="toggleTheme"
+                :title="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
+                :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'">
+                <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+            </button>
             <div class="row justify-content-center">
                 <div class="col-md-4">
                     <div class="admin-login-card">
@@ -1709,8 +2228,15 @@
                     <div
                         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2 fw-bold">{{ activeMenu }}</h1>
-                        <button class="btn btn-sm btn-outline-secondary" @click="toggleView(false)">View
-                            Website</button>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" class="theme-toggle" @click="toggleTheme"
+                                :title="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
+                                :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'">
+                                <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" @click="toggleView(false)">View
+                                Website</button>
+                        </div>
                     </div>
 
                     <div v-if="activeMenu === 'Dashboard'">
@@ -2352,6 +2878,7 @@
             data() {
                 return {
                     isAdminView: false,
+                    theme: document.documentElement.dataset.theme || 'light',
                     token: localStorage.getItem('token') || '',
                     activeMenu: 'Dashboard',
                     menus: ['Dashboard', 'Hero', 'Profile', 'Skills', 'Project Portfolio', 'Experience', 'Services', 'Testimonials', 'Articles', 'Contact', 'Messages', 'Website Settings', 'Admin'],
@@ -2402,10 +2929,42 @@
                 }
             },
             mounted() {
+                this.applyTheme(this.theme, false);
                 this.loadClientLandingData();
                 this.bootstrapModal = new bootstrap.Modal(document.getElementById('crudModal'));
             },
             methods: {
+                toggleTheme() {
+                    this.applyTheme(this.theme === 'dark' ? 'light' : 'dark');
+                },
+                applyTheme(theme, persist = true) {
+                    this.theme = theme;
+                    document.documentElement.dataset.theme = theme;
+                    document.documentElement.style.colorScheme = theme;
+                    const themeMeta = document.querySelector('meta[name="theme-color"]');
+                    if (themeMeta) themeMeta.setAttribute('content', theme === 'dark' ? '#080b12' : '#ffffff');
+                    if (persist) localStorage.setItem('portfolio-theme', theme);
+                    this.syncChartTheme();
+                },
+                syncChartTheme() {
+                    if (typeof Chart === 'undefined') return;
+                    const dark = this.theme === 'dark';
+                    const textColor = dark ? '#aab7c8' : '#5f6368';
+                    const gridColor = dark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(15, 23, 42, 0.1)';
+                    Chart.defaults.color = textColor;
+                    Chart.defaults.borderColor = gridColor;
+                    this.chartInstances.forEach(chart => {
+                        if (chart.options.plugins?.legend?.labels) {
+                            chart.options.plugins.legend.labels.color = textColor;
+                        }
+                        Object.values(chart.options.scales || {}).forEach(scale => {
+                            scale.ticks = { ...(scale.ticks || {}), color: textColor };
+                            scale.grid = { ...(scale.grid || {}), color: gridColor };
+                            scale.border = { ...(scale.border || {}), color: gridColor };
+                        });
+                        chart.update('none');
+                    });
+                },
                 sectionVisible(key) {
                     return this.pengaturan[key] !== false && this.pengaturan[key] !== 0;
                 },
