@@ -24,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
     <style>
         :root {
             --bg: #ffffff;
@@ -2049,363 +2050,432 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/landing-v2.css">
 </head>
 
 <body>
 
     <div id="app">
-        <div v-if="!isAdminView" class="landing-page">
-            <nav class="navbar navbar-expand-lg navbar-dark topbar sticky-top">
-                <div class="container">
-                    <a class="navbar-brand site-brand" href="#beranda">
-                        <span class="brand-mark">{{ pengaturan.logo || 'P' }}</span>
-                        <span>{{ pengaturan.namaWebsite || 'Portfolio' }}</span>
+        <div v-if="!isAdminView" ref="landingRoot" class="landing-page experience-page">
+            <header class="xp-nav">
+                <div class="xp-nav-inner">
+                    <a class="xp-brand" href="#beranda" @click="mobileMenuOpen = false">
+                        <span class="xp-brand-mark">{{ pengaturan.logo || 'P' }}</span>
+                        <span class="xp-brand-name">{{ pengaturan.namaWebsite || 'Portfolio' }}</span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto align-items-center">
-                            <li v-if="sectionVisible('showHero')" class="nav-item"><a class="nav-link" href="#beranda">Home</a></li>
-                            <li v-if="sectionVisible('showProfil')" class="nav-item"><a class="nav-link" href="#tentang">About</a></li>
-                            <li v-if="sectionVisible('showSkills')" class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                            <li v-if="sectionVisible('showProjects')" class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                            <li v-if="sectionVisible('showPengalaman')" class="nav-item"><a class="nav-link" href="#pengalaman">Experience</a></li>
-                            <li v-if="sectionVisible('showLayanan')" class="nav-item"><a class="nav-link" href="#layanan">Services</a></li>
-                            <li v-if="sectionVisible('showTestimoni')" class="nav-item"><a class="nav-link" href="#testimoni">Testimonials</a></li>
-                            <li v-if="sectionVisible('showArtikel')" class="nav-item"><a class="nav-link" href="#artikel">Articles</a></li>
-                            <li v-if="sectionVisible('showKontak')" class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
-                            <li class="nav-item ms-lg-2">
-                                <button type="button" class="theme-toggle" @click="toggleTheme"
-                                    :title="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
-                                    :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'">
-                                    <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                    <ul class="xp-nav-links" :class="{open: mobileMenuOpen}">
+                        <li v-if="sectionVisible('showProjects')"><a href="#portfolio" @click="mobileMenuOpen = false">Work</a></li>
+                        <li v-if="sectionVisible('showProfil')"><a href="#tentang" @click="mobileMenuOpen = false">About</a></li>
+                        <li v-if="sectionVisible('showSkills')"><a href="#skills" @click="mobileMenuOpen = false">Expertise</a></li>
+                        <li v-if="sectionVisible('showLayanan')"><a href="#layanan" @click="mobileMenuOpen = false">Services</a></li>
+                        <li v-if="sectionVisible('showPengalaman')"><a href="#pengalaman" @click="mobileMenuOpen = false">Journey</a></li>
+                        <li v-if="sectionVisible('showKontak')"><a href="#kontak" @click="mobileMenuOpen = false">Contact</a></li>
+                    </ul>
+                    <div class="xp-nav-actions">
+                        <button type="button" class="xp-theme-toggle" @click="toggleTheme"
+                            :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'">
+                            <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                        </button>
+                        <a v-if="sectionVisible('showKontak')" class="xp-nav-cta" href="#kontak">Start a project</a>
+                        <button type="button" class="xp-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen"
+                            :aria-expanded="mobileMenuOpen" aria-label="Toggle navigation">
+                            <i :class="mobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <section v-if="sectionVisible('showHero')" id="beranda" class="xp-hero">
+                    <div class="xp-container xp-hero-grid">
+                        <div class="xp-hero-copy">
+                            <span class="xp-status" data-xp-intro="status">
+                                <span class="xp-status-dot"></span>
+                                Available for selected projects
+                            </span>
+                            <span class="xp-hero-eyebrow" data-xp-intro="copy">GSAP · Three.js · Lenis experience</span>
+                            <h1 class="xp-hero-title">
+                                <span class="xp-title-line">{{ hero.nama || 'Digital' }}</span>
+                                <span class="xp-title-line xp-outline-word">{{ hero.role || 'Engineer' }}</span>
+                            </h1>
+                            <p class="xp-hero-role" data-xp-intro="copy">{{ hero.headline || 'Designing systems that move businesses forward.' }}</p>
+                            <p class="xp-hero-intro" data-xp-intro="copy">{{ hero.deskripsi || 'I turn complex product ideas into clear, scalable, and high-performing digital experiences.' }}</p>
+                            <div class="xp-hero-actions">
+                                <a v-if="sectionVisible('showProjects')" href="#portfolio" class="xp-primary-btn">
+                                    Explore selected work <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
+                                <a v-if="sectionVisible('showKontak')" href="#kontak" class="xp-secondary-btn">
+                                    Discuss a project <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </div>
+                            <div class="xp-hero-metrics">
+                                <article class="xp-metric-card">
+                                    <strong class="xp-metric-value">{{ allClientProjects.length }}</strong>
+                                    <span class="xp-metric-label">Visible projects ready to browse.</span>
+                                </article>
+                                <article class="xp-metric-card">
+                                    <strong class="xp-metric-value">{{ clientSkills.data?.length || 0 }}</strong>
+                                    <span class="xp-metric-label">Core capabilities mapped into the stack.</span>
+                                </article>
+                                <article class="xp-metric-card">
+                                    <strong class="xp-metric-value">{{ clientLayanan.data?.length || 0 }}</strong>
+                                    <span class="xp-metric-label">Service tracks from concept to deployment.</span>
+                                </article>
+                            </div>
+                            <div v-if="clientSkills.data?.length" class="xp-hero-stack">
+                                <span v-for="skill in clientSkills.data.slice(0, 6)" :key="'hero-skill-' + skill.id">{{ skill.nama }}</span>
+                            </div>
+                        </div>
+
+                        <div class="xp-hero-stage">
+                            <canvas ref="heroCanvas" class="xp-three-canvas" aria-hidden="true"></canvas>
+                            <div class="xp-stage-grid"></div>
+                            <div class="xp-stage-glow"></div>
+                            <span class="xp-stage-label">Realtime canvas / Three.js</span>
+                            <div v-if="heroStageTechnologies().length" class="xp-stage-stack">
+                                <span v-for="item in heroStageTechnologies()" :key="'stage-tech-' + item">{{ item }}</span>
+                            </div>
+                            <div class="xp-feature-float">
+                                <img v-if="featuredClientProject()?.thumbnail"
+                                    :src="projectImage(featuredClientProject())"
+                                    :alt="featuredClientProject()?.judul || 'Featured project'">
+                                <div v-else class="xp-feature-placeholder"><i class="fa-solid fa-code"></i></div>
+                                <div class="xp-feature-meta">
+                                    <span>Featured build</span>
+                                    <strong>{{ featuredClientProject()?.judul || 'Product engineering' }}</strong>
+                                    <small>{{ featuredClientProject()?.kategori || 'Immersive digital product' }}</small>
+                                </div>
+                                <button v-if="featuredClientProject()" type="button" class="xp-feature-button"
+                                    @click="showProjectDetail(featuredClientProject())" aria-label="View project details">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </button>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xp-scroll-cue">
+                        <span>Scroll to explore</span>
+                        <span class="xp-scroll-line"></span>
+                    </div>
+                </section>
+
+                <section class="xp-proof">
+                    <div class="xp-container xp-proof-grid">
+                        <div class="xp-proof-copy" data-xp-reveal>
+                            <span class="xp-kicker">System architecture</span>
+                            <h2>Motion, depth, and smoothness now have clear jobs.</h2>
+                            <p>GSAP menangani choreography antar section, Three.js dipakai untuk hero canvas yang membangun identitas visual, dan Lenis mengontrol scroll agar transisi anchor, reveal, dan scrub terasa konsisten di seluruh landing page.</p>
+                        </div>
+                        <div class="xp-proof-cards" data-xp-stagger>
+                            <article class="xp-proof-card">
+                                <span class="xp-proof-card-label">GSAP</span>
+                                <h3>Narrative motion</h3>
+                                <p>Reveal, parallax, dan scroll-driven composition mengarahkan fokus ke section yang paling penting.</p>
+                            </article>
+                            <article class="xp-proof-card">
+                                <span class="xp-proof-card-label">Three.js</span>
+                                <h3>Interactive hero surface</h3>
+                                <p>Canvas hero memberi depth visual dan respon pointer tanpa mengganggu keterbacaan konten utama.</p>
+                            </article>
+                            <article class="xp-proof-card">
+                                <span class="xp-proof-card-label">Lenis</span>
+                                <h3>Controlled flow</h3>
+                                <p>Smooth scrolling menjaga perpindahan antar anchor dan scrub animation tetap stabil dan terasa premium.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <div v-if="clientSkills.data?.length" class="xp-marquee" aria-label="Technology capabilities">
+                    <div class="xp-marquee-track">
+                        <div class="xp-marquee-group">
+                            <span v-for="skill in clientSkills.data" :key="'first-' + skill.id" class="xp-marquee-item">{{ skill.nama }}</span>
+                        </div>
+                        <div class="xp-marquee-group" aria-hidden="true">
+                            <span v-for="skill in clientSkills.data" :key="'second-' + skill.id" class="xp-marquee-item">{{ skill.nama }}</span>
+                        </div>
                     </div>
                 </div>
-            </nav>
 
-            <section v-if="sectionVisible('showHero')" id="beranda" class="hero-section">
-                <div class="container">
-                    <div class="hero-shell">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-7">
-                                <span class="eyebrow mb-4"><i class="fa-solid fa-circle-check"></i> Available for selected projects</span>
-                                <h1 class="hero-title mb-3">{{ hero.nama }}</h1>
-                                <h3 class="fw-semibold mb-3">{{ hero.role }}</h3>
-                                <p class="hero-subtitle mb-4">{{ hero.headline }}</p>
-                                <p class="hero-subtitle mb-5">{{ hero.deskripsi }}</p>
-                                <div class="d-flex flex-wrap gap-3">
-                                    <a v-if="sectionVisible('showKontak')" href="#kontak" class="btn btn-primary btn-lg px-4">Discuss a Project</a>
-                                    <a v-if="sectionVisible('showProjects')" href="#portfolio" class="btn btn-outline-dark btn-lg px-4">View My Work</a>
+                <section v-if="sectionVisible('showProfil')" id="tentang" class="xp-section">
+                    <div class="xp-container xp-about-layout">
+                        <div class="xp-about-sticky" data-xp-reveal>
+                            <span class="xp-about-number">01 / ABOUT</span>
+                            <h2 class="xp-about-title">Engineering with clarity and intent.</h2>
+                        </div>
+                        <div class="xp-about-content">
+                            <p data-xp-reveal>{{ profil.deskripsi || 'I combine product thinking, technical depth, and thoughtful execution to create digital systems that are useful, reliable, and built to last.' }}</p>
+                            <div class="xp-principle-grid" data-xp-stagger>
+                                <article class="xp-principle-card">
+                                    <span class="xp-principle-label">Motion</span>
+                                    <h3>GSAP for hierarchy</h3>
+                                    <p>Digunakan untuk intro timeline, scroll reveal, parallax, dan ritme antar block agar page terasa hidup tapi tetap fokus.</p>
+                                </article>
+                                <article class="xp-principle-card">
+                                    <span class="xp-principle-label">Depth</span>
+                                    <h3>Three.js for immersion</h3>
+                                    <p>Diposisikan hanya di hero supaya depth visual kuat di first impression, tanpa membebani section konten lain.</p>
+                                </article>
+                                <article class="xp-principle-card">
+                                    <span class="xp-principle-label">Flow</span>
+                                    <h3>Lenis for continuity</h3>
+                                    <p>Menyatukan smooth anchor navigation, scrub animation, dan perubahan section jadi satu pengalaman yang konsisten.</p>
+                                </article>
+                            </div>
+                            <div class="xp-capability-block" data-xp-reveal>
+                                <h3>Core expertise</h3>
+                                <div class="xp-tag-list">
+                                    <span v-for="item in profileItems(profil.keahlian)" :key="'expertise-' + item" class="xp-tag">{{ item }}</span>
+                                    <span v-if="!profileItems(profil.keahlian).length" class="xp-tag">Full-stack engineering</span>
                                 </div>
                             </div>
-                            <div class="col-lg-5">
-                                <div class="hero-panel">
-                                    <div class="hero-media">
-                                        <img v-if="clientProjects.data?.[0]?.thumbnail"
-                                            :src="clientProjects.data[0].thumbnail"
-                                            :alt="clientProjects.data[0].judul || 'Featured project'">
-                                        <div v-else class="hero-media-placeholder">
-                                            <i class="fa-solid fa-code"></i>
-                                        </div>
-                                    </div>
-                                    <div class="hero-panel-caption">
-                                        <div>
-                                            <div class="caption-label">Featured work</div>
-                                            <h4>{{ clientProjects.data?.[0]?.judul || hero.role || 'Software Engineer' }}</h4>
-                                        </div>
-                                        <button v-if="clientProjects.data?.[0]" class="round-link"
-                                            @click="showProjectDetail(clientProjects.data[0])"
-                                            aria-label="View featured project">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="metric-grid">
-                                        <div class="metric-card">
-                                            <div class="fs-3 fw-bold">{{ clientProjects.total || clientProjects.data?.length || 0 }}</div>
-                                            <div class="small">Projects</div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="fs-3 fw-bold">{{ clientSkills.total || clientSkills.data?.length || 0 }}</div>
-                                            <div class="small">Skills</div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="fs-3 fw-bold">{{ clientLayanan.total || clientLayanan.data?.length || 0 }}</div>
-                                            <div class="small">Services</div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="fs-3 fw-bold">{{ clientArtikel.total || clientArtikel.data?.length || 0 }}</div>
-                                            <div class="small">Articles</div>
-                                        </div>
+                            <div class="xp-capability-block" data-xp-reveal>
+                                <h3>Technology focus</h3>
+                                <div class="xp-tag-list">
+                                    <span v-for="item in profileItems(profil.fokus)" :key="'focus-' + item" class="xp-tag">{{ item }}</span>
+                                    <span v-if="!profileItems(profil.fokus).length" class="xp-tag">Scalable web products</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section v-if="sectionVisible('showProfil')" id="tentang" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                        <div class="mb-5">
-                            <div class="section-kicker mb-2">About me</div>
-                            <h2 class="section-title">How I work</h2>
-                            <p class="section-copy mb-0">A brief overview of my experience, core capabilities, and technology focus.</p>
+                <section v-if="sectionVisible('showProjects')" id="portfolio" class="xp-section xp-section-alt">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">02 / Selected work</span>
+                                <h2 class="xp-section-title">Products built to perform.</h2>
+                            </div>
+                            <p class="xp-section-copy" data-xp-reveal>Semua proyek publik sekarang tersedia penuh di landing page. Spotlight dipakai untuk proyek utama, lalu archive grid menampilkan keseluruhan katalog yang bisa dicari dan dipaginasi di client-side.</p>
                         </div>
-                        <div class="about-grid">
-                            <article class="about-profile-card">
-                                <div>
-                                    <div class="about-card-heading">
-                                        <span class="about-icon"><i class="fa-solid fa-briefcase"></i></span>
-                                        <h3>Professional Profile</h3>
+                        <article v-if="featuredClientProject()" class="xp-spotlight" data-xp-reveal>
+                            <div class="xp-spotlight-media">
+                                <span class="xp-project-index">01 / Spotlight</span>
+                                <span class="xp-project-featured">Featured</span>
+                                <img :src="projectImage(featuredClientProject())"
+                                    :alt="featuredClientProject()?.judul || 'Featured project'" data-xp-parallax="8">
+                            </div>
+                            <div class="xp-spotlight-content">
+                                <span class="xp-spotlight-kicker">{{ featuredClientProject()?.kategori || 'Digital product' }}</span>
+                                <h3>{{ featuredClientProject()?.judul || 'Flagship delivery' }}</h3>
+                                <p>{{ featuredClientProject()?.deskripsiLengkap || featuredClientProject()?.deskripsiSingkat || 'A detailed case study is available for this project.' }}</p>
+                                <div class="xp-spotlight-stats">
+                                    <span v-for="technology in profileItems(featuredClientProject()?.teknologi).slice(0, 5)"
+                                        :key="'spotlight-' + technology">{{ technology }}</span>
+                                </div>
+                                <div class="xp-project-actions">
+                                    <a v-if="featuredClientProject()?.linkDemo"
+                                        :href="externalLink(featuredClientProject().linkDemo)" target="_blank"
+                                        rel="noopener noreferrer" class="xp-project-link xp-project-link-primary">
+                                        Live project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                    <a v-if="featuredClientProject()?.linkGithub"
+                                        :href="externalLink(featuredClientProject().linkGithub)" target="_blank"
+                                        rel="noopener noreferrer" class="xp-project-link">
+                                        <i class="fa-brands fa-github"></i> Source
+                                    </a>
+                                    <button type="button" class="xp-project-link"
+                                        @click="showProjectDetail(featuredClientProject())">Case study</button>
+                                </div>
+                            </div>
+                        </article>
+                        <div class="xp-project-toolbar" data-xp-reveal>
+                            <label class="xp-project-search">
+                                <input type="search" placeholder="Search project, category, stack..." aria-label="Search projects"
+                                    v-model="projectQuery.search" @input="scheduleProjectSearch">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </label>
+                            <div class="xp-project-toolbar-meta">
+                                <span>{{ clientProjects.total || 0 }} visible projects</span>
+                                <span v-if="projectQuery.search">Filter: “{{ projectQuery.search }}”</span>
+                            </div>
+                        </div>
+                        <div v-if="clientProjects.data?.length" class="xp-project-grid" data-xp-stagger>
+                            <article v-for="(project, index) in clientProjects.data" :key="project.id" class="xp-project-card">
+                                <div class="xp-project-card-media">
+                                    <img :src="projectImage(project)" :alt="project.judul || 'Project preview'" loading="lazy" data-xp-parallax="6">
+                                </div>
+                                <div class="xp-project-card-content">
+                                    <div class="xp-project-card-top">
+                                        <span class="xp-project-index">{{ projectVisualIndex(index) }}</span>
+                                        <span class="xp-project-category">{{ project.kategori || 'Digital product' }}</span>
                                     </div>
-                                    <p>{{ profil.deskripsi || 'Not provided yet.' }}</p>
+                                    <h3>{{ project.judul }}</h3>
+                                    <p>{{ project.deskripsiSingkat || 'Project summary is not yet available.' }}</p>
+                                    <div class="xp-project-stack">
+                                        <span v-for="technology in profileItems(project.teknologi).slice(0, 4)"
+                                            :key="project.id + '-' + technology">{{ technology }}</span>
+                                    </div>
+                                    <div class="xp-project-actions">
+                                        <a v-if="project.linkDemo" :href="externalLink(project.linkDemo)" target="_blank"
+                                            rel="noopener noreferrer" class="xp-project-link xp-project-link-primary">
+                                            Live <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </a>
+                                        <a v-if="project.linkGithub" :href="externalLink(project.linkGithub)" target="_blank"
+                                            rel="noopener noreferrer" class="xp-project-link">
+                                            <i class="fa-brands fa-github"></i> Source
+                                        </a>
+                                        <button type="button" class="xp-project-link" @click="showProjectDetail(project)">Detail</button>
+                                    </div>
                                 </div>
                             </article>
-
-                            <div class="about-detail-stack">
-                                <article class="about-detail-card">
-                                    <div class="about-card-heading">
-                                        <span class="about-icon"><i class="fa-solid fa-graduation-cap"></i></span>
-                                        <h3>Core Expertise</h3>
-                                    </div>
-                                    <div v-if="profileItems(profil.keahlian).length > 1" class="about-tags">
-                                        <span v-for="item in profileItems(profil.keahlian)" :key="item" class="about-tag">{{ item }}</span>
-                                    </div>
-                                    <p v-else class="about-detail-copy">{{ profil.keahlian || 'Not provided yet.' }}</p>
-                                </article>
-
-                                <article class="about-detail-card">
-                                    <div class="about-card-heading">
-                                        <span class="about-icon"><i class="fa-solid fa-microchip"></i></span>
-                                        <h3>Technology Focus</h3>
-                                    </div>
-                                    <div v-if="profileItems(profil.fokus).length > 1" class="about-tags">
-                                        <span v-for="item in profileItems(profil.fokus)" :key="item" class="about-tag">{{ item }}</span>
-                                    </div>
-                                    <p v-else class="about-detail-copy">{{ profil.fokus || 'Not provided yet.' }}</p>
-                                </article>
-                            </div>
+                        </div>
+                        <div v-else class="xp-empty">No projects match your search.</div>
+                        <div v-if="clientProjects.totalPages > 1" class="xp-pagination">
+                            <button :disabled="projectQuery.page === 1" @click="changeClientProjectPage(projectQuery.page - 1)">Prev</button>
+                            <button v-for="page in clientProjects.totalPages" :key="'page-' + page"
+                                :class="{active: projectQuery.page === page}" @click="changeClientProjectPage(page)">{{ page }}</button>
+                            <button :disabled="projectQuery.page === clientProjects.totalPages"
+                                @click="changeClientProjectPage(projectQuery.page + 1)">Next</button>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section v-if="sectionVisible('showSkills')" id="skills" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                        <div class="mb-5">
-                            <div class="section-kicker mb-2">Capabilities</div>
-                            <h2 class="section-title">Technologies I use</h2>
+                <section v-if="sectionVisible('showSkills')" id="skills" class="xp-section xp-section-dark">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">03 / Capabilities</span>
+                                <h2 class="xp-section-title">Tools are only as good as the thinking.</h2>
+                            </div>
+                            <p class="xp-section-copy" data-xp-reveal>Technical fluency across the stack, applied according to product constraints rather than trends.</p>
                         </div>
-                        <div class="row row-cols-2 row-cols-md-4 g-4">
-                            <div class="col" v-for="s in clientSkills.data" :key="s.id">
-                                <div class="skill-card text-center h-100">
-                                <h5 class="mb-2 fw-semibold">{{ s.nama }}</h5>
-                                <div class="progress" style="height: 10px;">
-                                    <div class="progress-bar bg-primary" role="progressbar"
-                                        :style="{width: s.tingkat + '%'}"></div>
+                        <div class="xp-skills-grid" data-xp-stagger>
+                            <article v-for="(skill, index) in clientSkills.data" :key="skill.id" class="xp-skill-card">
+                                <span class="xp-skill-index">{{ String(index + 1).padStart(2, '0') }}</span>
+                                <span class="xp-skill-level">{{ skill.tingkat }}%</span>
+                                <h3 class="xp-skill-name">{{ skill.nama }}</h3>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="sectionVisible('showPengalaman')" id="pengalaman" class="xp-section">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">04 / Journey</span>
+                                <h2 class="xp-section-title">Experience in motion.</h2>
+                            </div>
+                            <p class="xp-section-copy" data-xp-reveal>A record of roles, responsibilities, and the systems delivered along the way.</p>
+                        </div>
+                        <div class="xp-journey" data-xp-stagger>
+                            <article v-for="(experience, index) in clientPengalaman.data" :key="experience.id" class="xp-journey-item">
+                                <span class="xp-journey-index">{{ String(index + 1).padStart(2, '0') }}</span>
+                                <div class="xp-journey-role">
+                                    <h3>{{ experience.posisi }}</h3>
+                                    <p>{{ experience.perusahaan }}</p>
+                                    <span class="xp-journey-period">{{ experience.periode }}</span>
                                 </div>
+                                <p class="xp-journey-copy">{{ experience.tanggungJawab }}</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="sectionVisible('showLayanan')" id="layanan" class="xp-section xp-section-alt">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">05 / Services</span>
+                                <h2 class="xp-section-title">From ambiguity to shipped product.</h2>
                             </div>
+                            <p class="xp-section-copy" data-xp-reveal>Focused engineering services for teams that value robust systems, clear decisions, and measurable outcomes.</p>
+                        </div>
+                        <div class="xp-services-grid" data-xp-stagger>
+                            <article v-for="(service, index) in clientLayanan.data" :key="service.id" class="xp-service-card">
+                                <div class="xp-service-top">
+                                    <span class="xp-service-number">0{{ index + 1 }}</span>
+                                    <span class="xp-service-icon"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                                </div>
+                                <h3>{{ service.nama }}</h3>
+                                <p>{{ service.deskripsi }}</p>
+                            </article>
                         </div>
                     </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-            <section v-if="sectionVisible('showProjects')" id="portfolio" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
-                        <div>
-                            <div class="section-kicker mb-2">Selected work</div>
-                            <h2 class="section-title mb-2">Recent projects</h2>
-                            <p class="section-copy mb-0">A selection of solutions I have designed and developed.</p>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search projects by title..."
-                                    v-model="projectQuery.search" @input="fetchClientProjects">
-                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                <section v-if="sectionVisible('showTestimoni')" id="testimoni" class="xp-section">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">06 / Trust</span>
+                                <h2 class="xp-section-title">What collaboration feels like.</h2>
                             </div>
+                            <p class="xp-section-copy" data-xp-reveal>Perspectives from people and teams who have shared the process.</p>
+                        </div>
+                        <div class="xp-testimonial-grid" data-xp-stagger>
+                            <article v-for="testimonial in clientTestimoni.data" :key="testimonial.id" class="xp-quote-card">
+                                <span class="xp-quote-mark">“</span>
+                                <blockquote>{{ testimonial.review }}</blockquote>
+                                <div class="xp-quote-person">
+                                    <strong>{{ testimonial.nama }}</strong>
+                                    <span>{{ testimonial.perusahaan }}</span>
+                                </div>
+                            </article>
                         </div>
                     </div>
+                </section>
 
-                    <div class="row g-4">
-                        <div class="col-md-4" v-for="p in clientProjects.data" :key="p.id">
-                            <div class="project-card h-100">
-                                <span v-if="p.featured"
-                                    class="position-absolute top-0 end-0 badge bg-danger m-3">Featured</span>
-                                <img :src="p.thumbnail || 'https://via.placeholder.com/400x200?text=No+Image'"
-                                    class="card-img-top" alt="Thumbnail" @click="openProjectLink(p)">
-                                <div class="card-body d-flex flex-column">
-                                    <span class="badge bg-secondary mb-2 align-self-start">{{ p.kategori }}</span>
-                                    <h5 class="card-title fw-bold">{{ p.judul }}</h5>
-                                    <p class="card-text text-muted flex-grow-1 small">{{ p.deskripsiSingkat }}</p>
-                                    <div class="mb-3"><small class="text-primary fw-semibold">{{ p.teknologi }}</small>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <a v-if="p.linkDemo" :href="p.linkDemo" target="_blank"
-                                            class="btn btn-sm btn-primary flex-fill"><i
-                                                class="fa fa-external-link me-1"></i> Demo</a>
-                                        <a v-if="p.linkGithub" :href="p.linkGithub" target="_blank"
-                                            class="btn btn-sm btn-dark flex-fill"><i class="fab fa-github me-1"></i>
-                                            GitHub</a>
-                                        <button class="btn btn-sm btn-outline-secondary"
-                                            @click="showProjectDetail(p)">Details</button>
+                <section v-if="sectionVisible('showArtikel')" id="artikel" class="xp-section xp-section-alt">
+                    <div class="xp-container">
+                        <div class="xp-section-head">
+                            <div data-xp-reveal>
+                                <span class="xp-kicker">07 / Notes</span>
+                                <h2 class="xp-section-title">Ideas, lessons, and technical notes.</h2>
+                            </div>
+                            <p class="xp-section-copy" data-xp-reveal>Short observations from building products and engineering systems in the real world.</p>
+                        </div>
+                        <div class="xp-articles-grid" data-xp-stagger>
+                            <article v-for="(article, index) in clientArtikel.data" :key="article.id" class="xp-article-card">
+                                <div class="xp-article-meta">
+                                    <span>{{ article.tanggal }}</span>
+                                    <span>0{{ index + 1 }}</span>
+                                </div>
+                                <h3>{{ article.judul }}</h3>
+                                <p>{{ article.konten ? article.konten.substring(0, 155) + '…' : '' }}</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="sectionVisible('showKontak')" id="kontak" class="xp-section">
+                    <div class="xp-container">
+                        <div class="xp-contact-wrap" data-xp-reveal>
+                            <div class="xp-contact-grid">
+                                <div>
+                                    <span class="xp-kicker text-white opacity-75">08 / Start a conversation</span>
+                                    <h2 class="xp-contact-title">Have a product worth building?</h2>
+                                    <p class="xp-contact-copy">Share the context, constraints, and outcome you need. I will respond with clear next steps.</p>
+                                    <div class="xp-contact-details">
+                                        <a v-if="kontak.email" :href="'mailto:' + kontak.email" class="xp-contact-chip">
+                                            <i class="fa-regular fa-envelope"></i>{{ kontak.email }}
+                                        </a>
+                                        <span v-if="kontak.lokasi" class="xp-contact-chip">
+                                            <i class="fa-solid fa-location-dot"></i>{{ kontak.lokasi }}
+                                        </span>
                                     </div>
                                 </div>
+                                <form class="xp-contact-form" @submit.prevent="submitContactMessage">
+                                    <input type="text" v-model="contactForm.website" tabindex="-1" autocomplete="off"
+                                        aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
+                                    <input class="xp-contact-field" type="text" placeholder="Your name"
+                                        v-model.trim="contactForm.nama" minlength="2" maxlength="100" required>
+                                    <input class="xp-contact-field" type="email" placeholder="Work email"
+                                        v-model.trim="contactForm.email" maxlength="254" required>
+                                    <textarea class="xp-contact-field" placeholder="Tell me about the product, challenge, or opportunity..."
+                                        v-model.trim="contactForm.pesan" minlength="10" maxlength="5000" required></textarea>
+                                    <button type="submit" class="xp-contact-submit" :disabled="sendingMessage">
+                                        <span v-if="sendingMessage" class="spinner-border spinner-border-sm"></span>
+                                        {{ sendingMessage ? 'Sending...' : 'Send project brief' }}
+                                        <i v-if="!sendingMessage" class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-                    <nav class="mt-5" v-if="clientProjects.totalPages > 1">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" :class="{disabled: projectQuery.page === 1}">
-                                <button class="page-link"
-                                    @click="changeClientProjectPage(projectQuery.page - 1)">Previous</button>
-                            </li>
-                            <li class="page-item" v-for="page in clientProjects.totalPages"
-                                :class="{active: projectQuery.page === page}">
-                                <button class="page-link" @click="changeClientProjectPage(page)">{{ page }}</button>
-                            </li>
-                            <li class="page-item" :class="{disabled: projectQuery.page === clientProjects.totalPages}">
-                                <button class="page-link"
-                                    @click="changeClientProjectPage(projectQuery.page + 1)">Next</button>
-                            </li>
-                        </ul>
-                    </nav>
-                    </div>
-                </div>
-            </section>
-
-            <section v-if="sectionVisible('showPengalaman')" id="pengalaman" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                    <div class="mb-5">
-                        <div class="section-kicker mb-2">Experience</div>
-                        <h2 class="section-title">Professional journey</h2>
-                    </div>
-                    <div class="timeline border-start border-3 ps-4 ms-2 position-relative">
-                        <div class="mb-4 position-relative" v-for="exp in clientPengalaman.data" :key="exp.id">
-                            <i class="fa fa-circle position-absolute timeline-dot"></i>
-                            <h5 class="fw-bold m-0">{{ exp.posisi }}</h5>
-                            <div class="text-muted small mb-2">{{ exp.perusahaan }} | {{ exp.periode }}</div>
-                            <p>{{ exp.tanggungJawab }}</p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
-
-            <section v-if="sectionVisible('showLayanan')" id="layanan" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                    <div class="mb-5">
-                        <div class="section-kicker mb-2">Services</div>
-                        <h2 class="section-title">How I can help</h2>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-4" v-for="l in clientLayanan.data" :key="l.id">
-                            <div class="service-card text-center h-100">
-                                <div class="text-primary mb-3"><i class="fa fa-cubes fa-2x"></i></div>
-                                <h5 class="fw-bold">{{ l.nama }}</h5>
-                                <p class="text-muted small">{{ l.deskripsi }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
-
-            <section v-if="sectionVisible('showTestimoni')" id="testimoni" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                    <div class="mb-5">
-                        <div class="section-kicker mb-2">Testimonials</div>
-                        <h2 class="section-title">What clients say</h2>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-6" v-for="t in clientTestimoni.data" :key="t.id">
-                            <div class="testimonial-card h-100">
-                                <p class="fst-italic">"{{ t.review }}"</p>
-                                <hr>
-                                <h6 class="fw-bold m-0">{{ t.nama }}</h6>
-                                <small class="text-muted">{{ t.perusahaan }}</small>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
-
-            <section v-if="sectionVisible('showArtikel')" id="artikel" class="py-4">
-                <div class="container">
-                    <div class="section-shell">
-                    <div class="mb-5">
-                        <div class="section-kicker mb-2">Writing</div>
-                        <h2 class="section-title">Notes and articles</h2>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-4" v-for="a in clientArtikel.data" :key="a.id">
-                            <div class="article-card h-100">
-                                <small class="text-muted mb-2">{{ a.tanggal }}</small>
-                                <h5 class="fw-bold">{{ a.judul }}</h5>
-                                <p class="text-muted small">{{ a.konten ? a.konten.substring(0, 120) + '...' : '' }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
-
-            <section v-if="sectionVisible('showKontak')" id="kontak" class="py-4">
-                <div class="container">
-                    <div class="contact-shell">
-                    <div class="mb-5">
-                        <div class="section-kicker text-light opacity-75 mb-2">Contact</div>
-                        <h2 class="section-title text-white">Let’s work together</h2>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-5">
-                            <h4 class="fw-semibold mb-3">Contact Information</h4>
-                            <p><i class="fab fa-whatsapp text-success me-2"></i> {{ kontak.whatsapp }}</p>
-                            <p><i class="fa-regular fa-envelope text-danger me-2"></i> {{ kontak.email }}</p>
-                            <p><i class="fab fa-linkedin text-primary me-2"></i> {{ kontak.linkedin }}</p>
-                            <p><i class="fab fa-github text-light me-2"></i> {{ kontak.github }}</p>
-                            <p><i class="fa-solid fa-location-dot text-warning me-2"></i> {{ kontak.lokasi }}</p>
-                        </div>
-                        <div class="col-md-7">
-                            <form @submit.prevent="submitContactMessage">
-                                <input type="text" v-model="contactForm.website" tabindex="-1" autocomplete="off"
-                                    aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
-                                <div class="mb-3"><input type="text" class="form-control" placeholder="Your name"
-                                        v-model.trim="contactForm.nama" minlength="2" maxlength="100" required></div>
-                                <div class="mb-3"><input type="email" class="form-control" placeholder="Your email"
-                                        v-model.trim="contactForm.email" maxlength="254" required></div>
-                                <div class="mb-3"><textarea class="form-control" rows="4" placeholder="Your message"
-                                        v-model.trim="contactForm.pesan" minlength="10" maxlength="5000" required></textarea></div>
-                                <button type="submit" class="btn btn-warning px-4" :disabled="sendingMessage">
-                                    <span v-if="sendingMessage" class="spinner-border spinner-border-sm me-2"></span>
-                                    {{ sendingMessage ? 'Sending...' : 'Send Message' }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </main>
 
             <footer v-if="sectionVisible('showFooter')" class="site-footer">
                 <div class="container">
@@ -2416,75 +2486,52 @@
                                     <span class="footer-brand-mark">{{ pengaturan.logo || 'P' }}</span>
                                     <span>{{ pengaturan.namaWebsite || 'Portfolio' }}</span>
                                 </a>
-                                <p class="footer-description">
-                                    {{ hero.headline || 'Designing and engineering reliable digital products with a focus on clarity, performance, and measurable impact.' }}
-                                </p>
+                                <p class="footer-description">{{ hero.headline || 'Designing and engineering reliable digital products with clarity, performance, and measurable impact.' }}</p>
                                 <span class="footer-availability">
-                                    <span class="footer-availability-dot"></span>
-                                    Available for selected projects
+                                    <span class="footer-availability-dot"></span>Available for selected projects
                                 </span>
                             </div>
-
                             <div class="col-6 col-md-2 offset-lg-1">
                                 <h3 class="footer-heading">Explore</h3>
                                 <ul class="footer-links">
-                                    <li v-if="sectionVisible('showHero')"><a href="#beranda">Home</a></li>
+                                    <li><a href="#beranda">Home</a></li>
                                     <li v-if="sectionVisible('showProfil')"><a href="#tentang">About</a></li>
                                     <li v-if="sectionVisible('showProjects')"><a href="#portfolio">Projects</a></li>
-                                    <li v-if="sectionVisible('showPengalaman')"><a href="#pengalaman">Experience</a></li>
                                     <li v-if="sectionVisible('showKontak')"><a href="#kontak">Contact</a></li>
                                 </ul>
                             </div>
-
                             <div class="col-12 col-md-3">
                                 <h3 class="footer-heading">Connect</h3>
                                 <div class="footer-contact-list">
-                                    <a v-if="kontak.email" :href="`mailto:${kontak.email}`" class="footer-contact-item">
-                                        <i class="fa-regular fa-envelope"></i>
-                                        <span>{{ kontak.email }}</span>
+                                    <a v-if="kontak.email" :href="'mailto:' + kontak.email" class="footer-contact-item">
+                                        <i class="fa-regular fa-envelope"></i><span>{{ kontak.email }}</span>
                                     </a>
                                     <span v-if="kontak.lokasi" class="footer-contact-item">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                        <span>{{ kontak.lokasi }}</span>
+                                        <i class="fa-solid fa-location-dot"></i><span>{{ kontak.lokasi }}</span>
                                     </span>
                                 </div>
                                 <div class="footer-socials">
-                                    <a v-if="kontak.whatsapp" :href="whatsappLink(kontak.whatsapp)"
-                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
-                                        aria-label="Contact via WhatsApp" title="WhatsApp">
-                                        <i class="fa-brands fa-whatsapp"></i>
-                                    </a>
-                                    <a v-if="kontak.linkedin" :href="externalLink(kontak.linkedin)"
-                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
-                                        aria-label="Open LinkedIn profile" title="LinkedIn">
-                                        <i class="fa-brands fa-linkedin-in"></i>
-                                    </a>
-                                    <a v-if="kontak.github" :href="externalLink(kontak.github)"
-                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
-                                        aria-label="Open GitHub profile" title="GitHub">
-                                        <i class="fa-brands fa-github"></i>
-                                    </a>
+                                    <a v-if="kontak.whatsapp" :href="whatsappLink(kontak.whatsapp)" class="footer-social-link"
+                                        target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                                    <a v-if="kontak.linkedin" :href="externalLink(kontak.linkedin)" class="footer-social-link"
+                                        target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    <a v-if="kontak.github" :href="externalLink(kontak.github)" class="footer-social-link"
+                                        target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="footer-bottom">
-                        <p class="footer-note">
-                            {{ pengaturan.footerNote || `© ${currentYear} ${pengaturan.namaWebsite || 'Portfolio'}. All rights reserved.` }}
-                        </p>
+                        <p class="footer-note">{{ pengaturan.footerNote || ('© ' + currentYear + ' ' + (pengaturan.namaWebsite || 'Portfolio') + '. All rights reserved.') }}</p>
                         <div class="footer-credit">
                             <span>Designed &amp; engineered with purpose.</span>
-                            <a href="#cms-admin" class="footer-admin-link">Admin Portal</a>
-                            <a href="#beranda" class="footer-back-to-top" aria-label="Back to top" title="Back to top">
-                                <i class="fa-solid fa-arrow-up"></i>
-                            </a>
+                            <a href="#cms-admin" class="footer-admin-link" @click.prevent="toggleView(true)">Admin Portal</a>
+                            <a href="#beranda" class="footer-back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></a>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
-
         <div v-if="isAdminView && !token" class="container py-5 mt-5">
             <button type="button" class="theme-toggle admin-login-theme-toggle" @click="toggleTheme"
                 :title="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
@@ -3185,14 +3232,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+    <script src="/landing-v2.js"></script>
 
     <script>
-        const { createApp } = Vue;
+        const { createApp, markRaw } = Vue;
 
         createApp({
             data() {
                 return {
                     isAdminView: false,
+                    mobileMenuOpen: false,
                     theme: document.documentElement.dataset.theme || 'light',
                     currentYear: new Date().getFullYear(),
                     token: localStorage.getItem('token') || '',
@@ -3213,10 +3265,12 @@
 
                     // Client States & Singletons
                     hero: {}, profil: {}, kontak: {}, pengaturan: {},
-                    clientProjects: { data: [], totalPages: 1 },
-                    projectQuery: { page: 1, limit: 6, search: '' },
+                    allClientProjects: [],
+                    clientProjects: { data: [], total: 0, page: 1, totalPages: 1 },
+                    projectQuery: { page: 1, limit: 9, search: '' },
+                    projectSearchTimer: null,
 
-                    clientSkills: [], clientPengalaman: [], clientLayanan: [], clientTestimoni: [], clientArtikel: [],
+                    clientSkills: { data: [] }, clientPengalaman: { data: [] }, clientLayanan: { data: [] }, clientTestimoni: { data: [] }, clientArtikel: { data: [] },
                     contactForm: { nama: '', email: '', pesan: '', website: '' },
                     sendingMessage: false,
 
@@ -3241,18 +3295,22 @@
                     formData: {},
                     uploadingImage: false,
                     bootstrapModal: null,
-                    chartInstances: []
+                    chartInstances: [],
+                    landingRuntime: null,
+                    landingInitId: 0
                 }
             },
             mounted() {
                 this.applyTheme(this.theme, false);
-                this.loadClientLandingData();
                 this.bootstrapModal = new bootstrap.Modal(document.getElementById('crudModal'));
                 window.addEventListener('hashchange', this.handleHashNavigation);
                 this.handleHashNavigation();
+                this.loadClientLandingData();
             },
             beforeUnmount() {
                 window.removeEventListener('hashchange', this.handleHashNavigation);
+                if (this.projectSearchTimer) clearTimeout(this.projectSearchTimer);
+                this.destroyLandingExperience();
             },
             methods: {
                 externalLink(value) {
@@ -3260,12 +3318,35 @@
                     if (!link) return '#';
                     return /^https?:\/\//i.test(link) ? link : `https://${link}`;
                 },
+                escapeHtml(value) {
+                    return String(value ?? '')
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;');
+                },
                 whatsappLink(value) {
                     const link = String(value || '').trim();
                     if (/^https?:\/\//i.test(link)) return link;
                     let number = link.replace(/\D/g, '');
                     if (number.startsWith('0')) number = `62${number.slice(1)}`;
                     return `https://wa.me/${number}`;
+                },
+                projectImage(project) {
+                    return project?.thumbnail || 'https://placehold.co/1200x900/1b2230/ffffff?text=Selected+Work';
+                },
+                featuredClientProject() {
+                    return this.allClientProjects.find(project => project.featured) || this.allClientProjects[0] || null;
+                },
+                heroStageTechnologies() {
+                    const featured = this.featuredClientProject();
+                    const projectTech = this.profileItems(featured?.teknologi).slice(0, 3);
+                    const skillTech = (this.clientSkills.data || []).slice(0, 3).map(skill => skill.nama);
+                    return [...new Set([...projectTech, ...skillTech])].slice(0, 5);
+                },
+                projectVisualIndex(index) {
+                    return String(((this.clientProjects.page - 1) * this.projectQuery.limit) + index + 1).padStart(2, '0');
                 },
                 toggleTheme() {
                     this.applyTheme(this.theme === 'dark' ? 'light' : 'dark');
@@ -3278,6 +3359,35 @@
                     if (themeMeta) themeMeta.setAttribute('content', theme === 'dark' ? '#080b12' : '#ffffff');
                     if (persist) localStorage.setItem('portfolio-theme', theme);
                     this.syncChartTheme();
+                    this.landingRuntime?.updateTheme(theme === 'dark');
+                },
+                async initLandingExperience() {
+                    this.destroyLandingExperience();
+                    const initId = this.landingInitId;
+                    await this.$nextTick();
+                    if (this.isAdminView || !window.PortfolioLanding) return;
+
+                    const root = this.$refs.landingRoot;
+                    const canvas = this.$refs.heroCanvas;
+                    if (!root) return;
+
+                    const runtime = await window.PortfolioLanding.create({
+                        root,
+                        canvas,
+                        dark: this.theme === 'dark'
+                    });
+                    if (!runtime) return;
+                    if (this.isAdminView || initId !== this.landingInitId || this.$refs.landingRoot !== root) {
+                        runtime.destroy();
+                        return;
+                    }
+                    this.landingRuntime = markRaw(runtime);
+                    this.landingRuntime.updateTheme(this.theme === 'dark');
+                },
+                destroyLandingExperience() {
+                    this.landingInitId += 1;
+                    this.landingRuntime?.destroy();
+                    this.landingRuntime = null;
                 },
                 syncChartTheme() {
                     if (typeof Chart === 'undefined') return;
@@ -3308,6 +3418,34 @@
                         .map(item => item.trim())
                         .filter(Boolean);
                 },
+                async applyProjectFilters(rebuildExperience = false) {
+                    const query = String(this.projectQuery.search || '').trim().toLowerCase();
+                    const filteredProjects = this.allClientProjects.filter(project => {
+                        if (!query) return true;
+                        return [
+                            project.judul,
+                            project.kategori,
+                            project.deskripsiSingkat,
+                            project.deskripsiLengkap,
+                            project.teknologi
+                        ].some(field => String(field || '').toLowerCase().includes(query));
+                    });
+
+                    const totalPages = Math.max(1, Math.ceil(filteredProjects.length / this.projectQuery.limit));
+                    if (this.projectQuery.page > totalPages) this.projectQuery.page = totalPages;
+
+                    const start = (this.projectQuery.page - 1) * this.projectQuery.limit;
+                    this.clientProjects = {
+                        data: filteredProjects.slice(start, start + this.projectQuery.limit),
+                        total: filteredProjects.length,
+                        page: this.projectQuery.page,
+                        totalPages
+                    };
+
+                    await this.$nextTick();
+                    if (!this.isAdminView && rebuildExperience) await this.initLandingExperience();
+                    else this.landingRuntime?.refresh();
+                },
                 async submitContactMessage() {
                     this.sendingMessage = true;
                     try {
@@ -3337,38 +3475,69 @@
                         ]);
                         this.hero = h; this.profil = p; this.kontak = k; this.pengaturan = s;
 
-                        this.fetchClientProjects();
-                        this.clientSkills = await fetch('/api/skills?limit=50').then(res => res.json());
-                        this.clientPengalaman = await fetch('/api/pengalaman?limit=20').then(res => res.json());
-                        this.clientLayanan = await fetch('/api/layanan?limit=20').then(res => res.json());
-                        this.clientTestimoni = await fetch('/api/testimoni?limit=20').then(res => res.json());
-                        this.clientArtikel = await fetch('/api/artikel?limit=3').then(res => res.json());
+                        const [projects, skills, experience, services, testimonials, articles] = await Promise.all([
+                            fetch('/api/projects?all=1').then(res => res.json()),
+                            fetch('/api/skills?all=1').then(res => res.json()),
+                            fetch('/api/pengalaman?all=1').then(res => res.json()),
+                            fetch('/api/layanan?all=1').then(res => res.json()),
+                            fetch('/api/testimoni?all=1').then(res => res.json()),
+                            fetch('/api/artikel?all=1').then(res => res.json())
+                        ]);
+                        this.allClientProjects = Array.isArray(projects.data) ? projects.data : [];
+                        this.clientSkills = skills;
+                        this.clientPengalaman = experience;
+                        this.clientLayanan = services;
+                        this.clientTestimoni = testimonials;
+                        this.clientArtikel = articles;
+                        await this.applyProjectFilters(false);
+                        if (!this.isAdminView) await this.initLandingExperience();
                     } catch (err) {
                         console.error("Failed to load data:", err);
+                    } finally {
+                        if (!this.isAdminView && !this.landingRuntime) await this.initLandingExperience();
                     }
                 },
-                async fetchClientProjects() {
-                    const url = `/api/projects?page=${this.projectQuery.page}&limit=${this.projectQuery.limit}&search=${this.projectQuery.search}`;
-                    this.clientProjects = await fetch(url).then(res => res.json());
+                scheduleProjectSearch() {
+                    if (this.projectSearchTimer) clearTimeout(this.projectSearchTimer);
+                    this.projectSearchTimer = setTimeout(() => {
+                        this.projectQuery.page = 1;
+                        this.applyProjectFilters(true);
+                    }, 280);
                 },
-                changeClientProjectPage(page) {
+                async changeClientProjectPage(page) {
+                    if (page < 1 || page > this.clientProjects.totalPages) return;
                     this.projectQuery.page = page;
-                    this.fetchClientProjects();
+                    await this.applyProjectFilters(true);
+                    this.landingRuntime?.lenis?.scrollTo('#portfolio', { offset: -80 });
                 },
                 openProjectLink(p) {
                     const targetUrl = p.linkDemo || p.linkGithub || p.linkDokumentasi || '#portfolio';
                     window.open(targetUrl, '_blank');
                 },
                 showProjectDetail(p) {
+                    if (!p) return;
+                    const safeTitle = this.escapeHtml(p.judul || 'Project detail');
+                    const safeCategory = this.escapeHtml(p.kategori || 'Digital product');
+                    const safeDescription = this.escapeHtml(p.deskripsiLengkap || p.deskripsiSingkat || 'No description available yet.');
+                    const stackItems = this.profileItems(p.teknologi).map(item => `<span class="xp-detail-chip">${this.escapeHtml(item)}</span>`).join('');
+                    const actions = [
+                        p.linkDemo ? `<a class="xp-detail-link xp-detail-link-primary" href="${this.escapeHtml(this.externalLink(p.linkDemo))}" target="_blank" rel="noopener noreferrer">Live project <i class="fa-solid fa-arrow-up-right-from-square"></i></a>` : '',
+                        p.linkGithub ? `<a class="xp-detail-link" href="${this.escapeHtml(this.externalLink(p.linkGithub))}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> Source</a>` : '',
+                        p.linkDokumentasi ? `<a class="xp-detail-link" href="${this.escapeHtml(this.externalLink(p.linkDokumentasi))}" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-lines"></i> Docs</a>` : ''
+                    ].filter(Boolean).join('');
                     Swal.fire({
-                        title: `<strong>${p.judul}</strong>`,
-                        html: `<div class="text-start">
-                        <img src="${p.thumbnail}" class="img-fluid rounded mb-3">
-                        <p><b>Category:</b> ${p.kategori}</p>
-                        <p><b>Description:</b> ${p.deskripsiLengkap || p.deskripsiSingkat}</p>
-                        <p><b>Tech Stack:</b> ${p.teknologi}</p>
-                       </div>`,
+                        width: '980px',
                         showCloseButton: true,
+                        showConfirmButton: false,
+                        customClass: { popup: 'project-detail-popup' },
+                        html: `<div class="project-detail-dialog text-start">
+                            <img src="${this.escapeHtml(this.projectImage(p))}" class="img-fluid rounded-4 mb-4" alt="${safeTitle}">
+                            <span class="xp-detail-kicker">${safeCategory}</span>
+                            <h2 class="mt-2 mb-3 fw-bold">${safeTitle}</h2>
+                            <p class="mb-4">${safeDescription}</p>
+                            ${stackItems ? `<div class="xp-detail-stack mb-4">${stackItems}</div>` : ''}
+                            ${actions ? `<div class="xp-detail-actions">${actions}</div>` : ''}
+                        </div>`,
                         confirmButtonText: 'Close'
                     });
                 },
@@ -3388,9 +3557,11 @@
                     this.sessionValidated = false;
                     if (!isAdmin) {
                         this.destroyCharts();
-                        this.$nextTick(() => document.getElementById('beranda')?.scrollIntoView());
+                        await this.initLandingExperience();
+                        this.landingRuntime?.lenis?.scrollTo('#beranda', { immediate: true });
                         return;
                     }
+                    this.destroyLandingExperience();
                     if (!this.token) return;
 
                     if (await this.validateSession()) {

@@ -396,9 +396,10 @@ function registerModelRoutes() {
     // CRUD routes with search, limits, and pagination
     const makeCrudRoutes = (routePath, Model, searchField) => {
         app.get(`/api/${routePath}`, authenticateOptional, async (req, res) => {
-            let { page = 1, limit = 6, search = '' } = req.query;
+            let { page = 1, limit = 6, search = '', all = '0' } = req.query;
             page = parseInt(page);
             limit = parseInt(limit);
+            const fetchAll = all === '1';
 
             const whereClause = {};
             if (search) {
@@ -410,11 +411,18 @@ function registerModelRoutes() {
                 whereClause.statusTampil = true;
             }
 
+            const order = routePath === 'projects' ? [['urutan', 'ASC']] : [['id', 'DESC']];
+
+            if (fetchAll) {
+                const rows = await Model.findAll({ where: whereClause, order });
+                return res.json({ data: rows, total: rows.length, page: 1, totalPages: 1 });
+            }
+
             const { count, rows } = await Model.findAndCountAll({
                 where: whereClause,
                 limit,
                 offset: (page - 1) * limit,
-                order: routePath === 'projects' ? [['urutan', 'ASC']] : [['id', 'DESC']]
+                order
             });
 
             res.json({ data: rows, total: count, page, totalPages: Math.ceil(count / limit) });
