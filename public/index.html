@@ -544,6 +544,19 @@
             gap: 0.8rem;
         }
 
+        .footer-admin-link {
+            padding-right: 0.8rem;
+            border-right: 1px solid #334155;
+            color: #7f8da1 !important;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .footer-admin-link:hover {
+            color: #e2e8f0 !important;
+        }
+
         .footer-back-to-top {
             display: inline-grid;
             width: 2rem;
@@ -2071,8 +2084,6 @@
                                     <i :class="theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
                                 </button>
                             </li>
-                            <li class="nav-item ms-lg-3"><button class="btn btn-outline-light btn-sm"
-                                    @click="toggleView(true)">CMS Admin</button></li>
                         </ul>
                     </div>
                 </div>
@@ -2464,6 +2475,7 @@
                         </p>
                         <div class="footer-credit">
                             <span>Designed &amp; engineered with purpose.</span>
+                            <a href="#cms-admin" class="footer-admin-link">Admin Portal</a>
                             <a href="#beranda" class="footer-back-to-top" aria-label="Back to top" title="Back to top">
                                 <i class="fa-solid fa-arrow-up"></i>
                             </a>
@@ -3236,6 +3248,11 @@
                 this.applyTheme(this.theme, false);
                 this.loadClientLandingData();
                 this.bootstrapModal = new bootstrap.Modal(document.getElementById('crudModal'));
+                window.addEventListener('hashchange', this.handleHashNavigation);
+                this.handleHashNavigation();
+            },
+            beforeUnmount() {
+                window.removeEventListener('hashchange', this.handleHashNavigation);
             },
             methods: {
                 externalLink(value) {
@@ -3355,10 +3372,26 @@
                         confirmButtonText: 'Close'
                     });
                 },
-                async toggleView(isAdmin) {
+                toggleView(isAdmin) {
+                    const nextHash = isAdmin ? '#cms-admin' : '#beranda';
+                    if (window.location.hash === nextHash) {
+                        this.handleHashNavigation();
+                        return;
+                    }
+                    window.location.hash = nextHash;
+                },
+                async handleHashNavigation() {
+                    const isAdmin = window.location.hash === '#cms-admin';
+                    if (this.isAdminView === isAdmin && (!isAdmin || !this.token || this.sessionValidated)) return;
+
                     this.isAdminView = isAdmin;
                     this.sessionValidated = false;
-                    if (!isAdmin || !this.token) return;
+                    if (!isAdmin) {
+                        this.destroyCharts();
+                        this.$nextTick(() => document.getElementById('beranda')?.scrollIntoView());
+                        return;
+                    }
+                    if (!this.token) return;
 
                     if (await this.validateSession()) {
                         this.initCmsLayout();
