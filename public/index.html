@@ -350,6 +350,239 @@
             color: var(--muted);
         }
 
+        .site-footer {
+            position: relative;
+            margin-top: 4rem;
+            padding: 4.5rem 0 1.5rem;
+            overflow: hidden;
+            border-top: 1px solid #1e293b;
+            background: #080b12;
+            color: #e7ecf3;
+        }
+
+        .site-footer::before {
+            position: absolute;
+            top: -180px;
+            right: -80px;
+            width: 430px;
+            height: 430px;
+            border: 1px solid rgba(148, 163, 184, 0.09);
+            border-radius: 50%;
+            box-shadow: 0 0 0 70px rgba(148, 163, 184, 0.025), 0 0 0 140px rgba(148, 163, 184, 0.018);
+            content: '';
+            pointer-events: none;
+        }
+
+        .footer-main {
+            position: relative;
+            z-index: 1;
+            padding-bottom: 3.5rem;
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #fff !important;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            text-decoration: none;
+        }
+
+        .footer-brand:hover {
+            color: #fff !important;
+        }
+
+        .footer-brand-mark {
+            display: inline-grid;
+            width: 2.5rem;
+            height: 2.5rem;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #080b12;
+            font-size: 0.78rem;
+        }
+
+        .footer-description {
+            max-width: 30rem;
+            margin: 1.35rem 0 1.5rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .footer-availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.55rem 0.8rem;
+            border: 1px solid #263244;
+            border-radius: 999px;
+            color: #cbd5e1;
+            font-size: 0.67rem;
+            font-weight: 700;
+        }
+
+        .footer-availability-dot {
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.1);
+        }
+
+        .footer-heading {
+            margin: 0 0 1.15rem;
+            color: #f8fafc;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            display: grid;
+            gap: 0.7rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .footer-links a {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            color: #94a3b8 !important;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 160ms ease, transform 160ms ease;
+        }
+
+        .footer-links a:hover {
+            color: #fff !important;
+            transform: translateX(3px);
+        }
+
+        .footer-contact-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            color: #94a3b8 !important;
+            font-size: 0.76rem;
+            line-height: 1.55;
+            text-decoration: none;
+        }
+
+        a.footer-contact-item:hover {
+            color: #fff !important;
+        }
+
+        .footer-contact-item i {
+            width: 1rem;
+            margin-top: 0.2rem;
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        .footer-socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-top: 1.25rem;
+        }
+
+        .footer-social-link {
+            display: inline-grid;
+            width: 2.35rem;
+            height: 2.35rem;
+            place-items: center;
+            border: 1px solid #293548;
+            border-radius: 10px;
+            background: #101722;
+            color: #cbd5e1 !important;
+            text-decoration: none;
+            transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+        }
+
+        .footer-social-link:hover {
+            border-color: #526177;
+            background: #1a2432;
+            color: #fff !important;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid #202b3a;
+        }
+
+        .footer-note,
+        .footer-credit {
+            margin: 0;
+            color: #6f7e92;
+            font-size: 0.68rem;
+        }
+
+        .footer-credit {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .footer-back-to-top {
+            display: inline-grid;
+            width: 2rem;
+            height: 2rem;
+            place-items: center;
+            border: 1px solid #334155;
+            border-radius: 50%;
+            color: #cbd5e1 !important;
+            font-size: 0.65rem;
+            text-decoration: none;
+        }
+
+        .footer-back-to-top:hover {
+            border-color: #cbd5e1;
+            background: #cbd5e1;
+            color: #0f172a !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .site-footer {
+                margin-top: 2.5rem;
+                padding-top: 3.5rem;
+            }
+
+            .footer-main {
+                padding-bottom: 2.5rem;
+            }
+
+            .footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .footer-credit {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
         .sidebar {
             min-height: 100vh;
             background: #0f172a;
@@ -2163,9 +2396,79 @@
                 </div>
             </section>
 
-            <footer v-if="sectionVisible('showFooter')" class="text-center py-4">
+            <footer v-if="sectionVisible('showFooter')" class="site-footer">
                 <div class="container">
-                    <p class="m-0 small footer-shell">{{ pengaturan.footerNote }}</p>
+                    <div class="footer-main">
+                        <div class="row g-5">
+                            <div class="col-lg-5 col-md-7">
+                                <a href="#beranda" class="footer-brand">
+                                    <span class="footer-brand-mark">{{ pengaturan.logo || 'P' }}</span>
+                                    <span>{{ pengaturan.namaWebsite || 'Portfolio' }}</span>
+                                </a>
+                                <p class="footer-description">
+                                    {{ hero.headline || 'Designing and engineering reliable digital products with a focus on clarity, performance, and measurable impact.' }}
+                                </p>
+                                <span class="footer-availability">
+                                    <span class="footer-availability-dot"></span>
+                                    Available for selected projects
+                                </span>
+                            </div>
+
+                            <div class="col-6 col-md-2 offset-lg-1">
+                                <h3 class="footer-heading">Explore</h3>
+                                <ul class="footer-links">
+                                    <li v-if="sectionVisible('showHero')"><a href="#beranda">Home</a></li>
+                                    <li v-if="sectionVisible('showProfil')"><a href="#tentang">About</a></li>
+                                    <li v-if="sectionVisible('showProjects')"><a href="#portfolio">Projects</a></li>
+                                    <li v-if="sectionVisible('showPengalaman')"><a href="#pengalaman">Experience</a></li>
+                                    <li v-if="sectionVisible('showKontak')"><a href="#kontak">Contact</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <h3 class="footer-heading">Connect</h3>
+                                <div class="footer-contact-list">
+                                    <a v-if="kontak.email" :href="`mailto:${kontak.email}`" class="footer-contact-item">
+                                        <i class="fa-regular fa-envelope"></i>
+                                        <span>{{ kontak.email }}</span>
+                                    </a>
+                                    <span v-if="kontak.lokasi" class="footer-contact-item">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <span>{{ kontak.lokasi }}</span>
+                                    </span>
+                                </div>
+                                <div class="footer-socials">
+                                    <a v-if="kontak.whatsapp" :href="whatsappLink(kontak.whatsapp)"
+                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
+                                        aria-label="Contact via WhatsApp" title="WhatsApp">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                    </a>
+                                    <a v-if="kontak.linkedin" :href="externalLink(kontak.linkedin)"
+                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
+                                        aria-label="Open LinkedIn profile" title="LinkedIn">
+                                        <i class="fa-brands fa-linkedin-in"></i>
+                                    </a>
+                                    <a v-if="kontak.github" :href="externalLink(kontak.github)"
+                                        class="footer-social-link" target="_blank" rel="noopener noreferrer"
+                                        aria-label="Open GitHub profile" title="GitHub">
+                                        <i class="fa-brands fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p class="footer-note">
+                            {{ pengaturan.footerNote || `© ${currentYear} ${pengaturan.namaWebsite || 'Portfolio'}. All rights reserved.` }}
+                        </p>
+                        <div class="footer-credit">
+                            <span>Designed &amp; engineered with purpose.</span>
+                            <a href="#beranda" class="footer-back-to-top" aria-label="Back to top" title="Back to top">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </footer>
         </div>
@@ -2879,6 +3182,7 @@
                 return {
                     isAdminView: false,
                     theme: document.documentElement.dataset.theme || 'light',
+                    currentYear: new Date().getFullYear(),
                     token: localStorage.getItem('token') || '',
                     activeMenu: 'Dashboard',
                     menus: ['Dashboard', 'Hero', 'Profile', 'Skills', 'Project Portfolio', 'Experience', 'Services', 'Testimonials', 'Articles', 'Contact', 'Messages', 'Website Settings', 'Admin'],
@@ -2934,6 +3238,18 @@
                 this.bootstrapModal = new bootstrap.Modal(document.getElementById('crudModal'));
             },
             methods: {
+                externalLink(value) {
+                    const link = String(value || '').trim();
+                    if (!link) return '#';
+                    return /^https?:\/\//i.test(link) ? link : `https://${link}`;
+                },
+                whatsappLink(value) {
+                    const link = String(value || '').trim();
+                    if (/^https?:\/\//i.test(link)) return link;
+                    let number = link.replace(/\D/g, '');
+                    if (number.startsWith('0')) number = `62${number.slice(1)}`;
+                    return `https://wa.me/${number}`;
+                },
                 toggleTheme() {
                     this.applyTheme(this.theme === 'dark' ? 'light' : 'dark');
                 },
