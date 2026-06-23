@@ -738,6 +738,107 @@
             background: #fff;
         }
 
+        .about-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+            gap: 1.25rem;
+            align-items: stretch;
+        }
+
+        .about-profile-card,
+        .about-detail-card {
+            border-radius: 24px;
+            padding: clamp(1.5rem, 3vw, 2.35rem);
+        }
+
+        .about-profile-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100%;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .about-profile-card p {
+            margin: 1.5rem 0 0;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 0.98rem;
+            line-height: 1.85;
+            white-space: pre-line;
+        }
+
+        .about-detail-stack {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .about-detail-card {
+            background: #f4f4f4;
+        }
+
+        .about-card-heading {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .about-card-heading h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 750;
+            letter-spacing: -0.025em;
+        }
+
+        .about-icon {
+            width: 2.6rem;
+            height: 2.6rem;
+            flex: 0 0 auto;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+        }
+
+        .about-profile-card .about-icon {
+            background: #fff;
+            color: #000;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .about-tag {
+            display: inline-flex;
+            padding: 0.52rem 0.78rem;
+            border: 1px solid #d9d9d9;
+            border-radius: 999px;
+            background: #fff;
+            color: #303030;
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .about-detail-copy {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.85;
+            white-space: pre-line;
+        }
+
+        @media (max-width: 991.98px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .landing-page .project-card .bg-danger {
             background-color: #000 !important;
         }
@@ -929,26 +1030,41 @@
                             <h2 class="section-title">How I work</h2>
                             <p class="section-copy mb-0">A brief overview of my experience, core capabilities, and technology focus.</p>
                         </div>
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <div class="info-card h-100">
-                                <h5><i class="fa-solid fa-briefcase text-primary me-2"></i> Professional Profile</h5>
-                                <p>{{ profil.deskripsi || 'Not provided yet.' }}</p>
+                        <div class="about-grid">
+                            <article class="about-profile-card">
+                                <div>
+                                    <div class="about-card-heading">
+                                        <span class="about-icon"><i class="fa-solid fa-briefcase"></i></span>
+                                        <h3>Professional Profile</h3>
+                                    </div>
+                                    <p>{{ profil.deskripsi || 'Not provided yet.' }}</p>
+                                </div>
+                            </article>
+
+                            <div class="about-detail-stack">
+                                <article class="about-detail-card">
+                                    <div class="about-card-heading">
+                                        <span class="about-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                                        <h3>Core Expertise</h3>
+                                    </div>
+                                    <div v-if="profileItems(profil.keahlian).length > 1" class="about-tags">
+                                        <span v-for="item in profileItems(profil.keahlian)" :key="item" class="about-tag">{{ item }}</span>
+                                    </div>
+                                    <p v-else class="about-detail-copy">{{ profil.keahlian || 'Not provided yet.' }}</p>
+                                </article>
+
+                                <article class="about-detail-card">
+                                    <div class="about-card-heading">
+                                        <span class="about-icon"><i class="fa-solid fa-microchip"></i></span>
+                                        <h3>Technology Focus</h3>
+                                    </div>
+                                    <div v-if="profileItems(profil.fokus).length > 1" class="about-tags">
+                                        <span v-for="item in profileItems(profil.fokus)" :key="item" class="about-tag">{{ item }}</span>
+                                    </div>
+                                    <p v-else class="about-detail-copy">{{ profil.fokus || 'Not provided yet.' }}</p>
+                                </article>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="info-card h-100">
-                                <h5><i class="fa-solid fa-graduation-cap text-success me-2"></i> Expertise</h5>
-                                <p>{{ profil.keahlian || 'Not provided yet.' }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="info-card h-100">
-                                <h5><i class="fa-solid fa-microchip text-warning me-2"></i> Technology Focus</h5>
-                                <p>{{ profil.fokus || 'Not provided yet.' }}</p>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </section>
@@ -1268,9 +1384,12 @@
                                         v-model="cmsData.profil.deskripsi"></textarea></div>
                                 <div class="mb-3"><label class="form-label fw-semibold">Areas of Expertise</label><textarea
                                         class="form-control" rows="3" v-model="cmsData.profil.keahlian"></textarea>
+                                    <div class="form-text">Write one expertise per line for a cleaner landing-page layout.</div>
                                 </div>
                                 <div class="mb-3"><label class="form-label fw-semibold">Technology Focus</label><textarea
-                                        class="form-control" rows="3" v-model="cmsData.profil.fokus"></textarea></div>
+                                        class="form-control" rows="3" v-model="cmsData.profil.fokus"></textarea>
+                                    <div class="form-text">Write one technology or category per line.</div>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </form>
                         </div>
@@ -1734,6 +1853,13 @@
             methods: {
                 sectionVisible(key) {
                     return this.pengaturan[key] !== false && this.pengaturan[key] !== 0;
+                },
+                profileItems(value) {
+                    if (!value) return [];
+                    return String(value)
+                        .split(/\r?\n|[,;•]+/)
+                        .map(item => item.trim())
+                        .filter(Boolean);
                 },
                 async loadClientLandingData() {
                     try {
