@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Engineer Portfolio &amp; CMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --surface-soft: #f4f4f4;
+            --surface-dark: #000000;
+            --text: #000000;
+            --muted: #5f6368;
+            --line: #d9d9d9;
+            --primary: #000000;
+            --primary-dark: #333333;
+            --accent: #b7b7b7;
+            --danger: #b91c1c;
+            --highlight: #e8efff;
+            --brand-blue: #1428a0;
+            --shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+            --radius-lg: 22px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            line-height: 1.65;
+            letter-spacing: -0.01em;
+            --bs-primary-rgb: 0, 0, 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .topbar {
+            background: rgba(245, 245, 241, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .topbar.navbar-dark .navbar-brand,
+        .topbar.navbar-dark .navbar-nav .nav-link {
+            color: var(--text);
+        }
+
+        .topbar.navbar-dark .navbar-nav .nav-link {
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding-inline: 0.65rem;
+        }
+
+        .topbar.navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .topbar .navbar-toggler {
+            border-color: var(--line);
+            filter: invert(1);
+        }
+
+        .site-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .brand-mark {
+            width: 2.25rem;
+            height: 2.25rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: var(--surface-dark);
+            color: white;
+            border: 1px solid var(--surface-dark);
+        }
+
+        .hero-section {
+            padding: 5.5rem 0 4.5rem;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -95px;
+            top: 55px;
+            border-radius: 50%;
+            background: var(--highlight);
+            opacity: 0.65;
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section .row {
+            animation: reveal 520ms ease-out both;
+        }
+
+        .contact-shell,
+        .admin-login-card,
+        .dashboard-card,
+        .cms-panel-card,
+        .modal-content {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-shell {
+            padding: 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0;
+            border-radius: 999px;
+            background: transparent;
+            border: 0;
+            color: var(--primary-dark);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .hero-title {
+            font-size: clamp(2.35rem, 4.5vw, 3.85rem);
+            line-height: 1.04;
+            font-weight: 800;
+            letter-spacing: -0.055em;
+            max-width: 12ch;
+        }
+
+        .hero-section h3 {
+            color: var(--primary);
+            font-size: clamp(1rem, 1.7vw, 1.25rem);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 0.98rem;
+            line-height: 1.75;
+            color: var(--muted);
+            max-width: 37rem;
+        }
+
+        .hero-panel {
+            height: 100%;
+            padding: 1.75rem;
+            border-radius: calc(var(--radius-lg) - 6px);
+            background: var(--surface-dark);
+            color: #f8fafc;
+        }
+
+        .hero-panel .muted-on-dark,
+        .contact-shell .muted-on-dark {
+            color: rgba(248, 250, 252, 0.72);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .metric-card {
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            background: #222d29;
+            border: 1px solid #34413c;
+        }
+
+        .metric-card .fs-3 {
+            font-size: 1.45rem !important;
+        }
+
+        .section-shell {
+            padding: 4.5rem 0;
+            border-top: 1px solid var(--line);
+        }
+
+        #skills,
+        #layanan,
+        #artikel {
+            background: var(--surface-soft);
+        }
+
+        #skills .section-shell,
+        #layanan .section-shell,
+        #artikel .section-shell {
+            border-top-color: transparent;
+        }
+
+        .section-kicker {
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .section-title {
+            font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.75rem;
+            max-width: 22ch;
+        }
+
+        .section-copy {
+            color: var(--muted);
+            max-width: 38rem;
+            font-size: 0.93rem;
+        }
+
+        .info-card,
+        .service-card,
+        .testimonial-card,
+        .article-card,
+        .skill-card,
+        .project-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            background: var(--surface);
+            box-shadow: none;
+            transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        }
+
+        .info-card,
+        .service-card,
+        .testimonial-card,
+        .article-card,
+        .skill-card {
+            padding: 1.35rem;
+        }
+
+        .info-card:hover,
+        .service-card:hover,
+        .article-card:hover,
+        .skill-card:hover,
+        .project-card:hover {
+            transform: translateY(-3px);
+            border-color: #aeb6af;
+            box-shadow: var(--shadow);
+        }
+
+        .info-card h5,
+        .service-card h5,
+        .article-card h5,
+        .skill-card h5,
+        .project-card h5 {
+            font-size: 1rem;
+        }
+
+        .info-card p,
+        .service-card p,
+        .testimonial-card p,
+        .article-card p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .project-card {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card img {
+            height: 190px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .project-card .card-body {
+            padding: 1.25rem;
+        }
+
+        .progress {
+            height: 6px !important;
+            background: var(--surface-soft);
+        }
+
+        .progress-bar {
+            background-color: var(--primary) !important;
+        }
+
+        .timeline {
+            border-color: var(--accent) !important;
+        }
+
+        .timeline-dot {
+            left: -32px;
+            top: 6px;
+            color: var(--primary);
+        }
+
+        .contact-shell {
+            padding: 3rem;
+            background: var(--surface-dark);
+            color: #f8fafc;
+        }
+
+        .contact-shell .section-title {
+            max-width: 18ch;
+        }
+
+        .footer-shell {
+            color: var(--muted);
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: #0f172a;
+            color: white;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar .nav-link {
+            color: #94a3b8;
+            border-radius: 12px;
+            padding: 0.8rem 0.9rem;
+            transition: 0.2s ease;
+        }
+
+        .sidebar .nav-link.active,
+        .sidebar .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dashboard-card,
+        .cms-panel-card {
+            padding: 1.5rem;
+        }
+
+        .admin-login-card {
+            padding: 2rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn {
+            border-radius: 9px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.65rem 1rem;
+        }
+
+        .btn-lg {
+            font-size: 0.88rem;
+            padding: 0.75rem 1.15rem;
+        }
+
+        .topbar .btn-outline-light {
+            color: var(--text);
+            border-color: var(--line);
+        }
+
+        .topbar .btn-outline-light:hover {
+            color: white;
+            background: var(--surface-dark);
+            border-color: var(--surface-dark);
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-outline-light {
+            border-color: rgba(255, 255, 255, 0.24);
+        }
+
+        .text-muted,
+        .form-text {
+            color: var(--muted) !important;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: var(--radius-sm);
+            border-color: var(--line);
+            padding: 0.8rem 0.95rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #99f6e4;
+            box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.12);
+        }
+
+        .modal-content {
+            border-radius: 22px;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .hero-section .row {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .contact-shell {
+                padding: 1.5rem;
+            }
+
+            .topbar .navbar-collapse {
+                padding: 1rem 0;
+            }
+
+            .topbar.navbar-dark .navbar-nav .nav-link {
+                padding: 0.6rem 0;
+            }
+
+            .section-shell {
+                padding: 3.5rem 0;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            body {
+                font-size: 14px;
+            }
+
+            .hero-section {
+                padding: 3.75rem 0 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.35rem;
+            }
+
+            .hero-panel {
+                padding: 1.25rem;
+            }
+
+            .contact-shell {
+                border-radius: 16px;
+            }
+        }
+
+        /* Product-led landing layout inspired by Samsung's current web language. */
+        .landing-page .topbar {
+            min-height: 64px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom-color: #ededed;
+        }
+
+        .landing-page .site-brand {
+            color: #000;
+            font-size: 1.05rem;
+            letter-spacing: -0.045em;
+        }
+
+        .landing-page .brand-mark {
+            width: 2rem;
+            height: 2rem;
+            font-size: 0.75rem;
+            background: #000;
+        }
+
+        .landing-page .topbar.navbar-dark .navbar-nav .nav-link {
+            color: #000;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .landing-page .topbar.navbar-dark .navbar-nav .nav-link:hover {
+            color: var(--brand-blue);
+        }
+
+        .landing-page .hero-section {
+            padding: 1.5rem 0 3rem;
+        }
+
+        .landing-page .hero-section::before {
+            display: none;
+        }
+
+        .landing-page .hero-shell {
+            padding: clamp(1.5rem, 4vw, 4rem);
+            border-radius: 24px;
+            background: var(--surface-soft);
+        }
+
+        .landing-page .eyebrow {
+            color: #343434;
+            font-size: 0.68rem;
+            letter-spacing: 0.11em;
+        }
+
+        .landing-page .eyebrow i {
+            color: var(--brand-blue);
+        }
+
+        .landing-page .hero-title {
+            max-width: 10ch;
+            color: #000;
+            font-size: clamp(2.4rem, 4.8vw, 3.7rem);
+            line-height: 1.02;
+            letter-spacing: -0.06em;
+        }
+
+        .landing-page .hero-section h3 {
+            color: #111;
+            font-size: 1.05rem;
+        }
+
+        .landing-page .hero-subtitle {
+            max-width: 34rem;
+            color: #555;
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .landing-page .btn {
+            border-radius: 999px;
+        }
+
+        .landing-page .btn-primary,
+        .landing-page .btn-dark {
+            background: #000;
+            border-color: #000;
+            color: #fff;
+        }
+
+        .landing-page .btn-primary:hover,
+        .landing-page .btn-dark:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .landing-page .hero-panel {
+            min-height: 430px;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            color: #000;
+            border-radius: 20px;
+            box-shadow: none;
+        }
+
+        .hero-media {
+            min-height: 330px;
+            flex: 1;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #e7e7e7;
+        }
+
+        .hero-media img {
+            width: 100%;
+            height: 100%;
+            min-height: 330px;
+            object-fit: cover;
+        }
+
+        .hero-media-placeholder {
+            min-height: 330px;
+            display: grid;
+            place-items: center;
+            color: #8a8a8a;
+            font-size: 3rem;
+        }
+
+        .hero-panel-caption {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 0.35rem 0.35rem;
+        }
+
+        .hero-panel-caption h4 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .caption-label {
+            margin-bottom: 0.25rem;
+            color: #757575;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
+        .round-link {
+            width: 2.6rem;
+            height: 2.6rem;
+            flex: 0 0 auto;
+            display: inline-grid;
+            place-items: center;
+            border: 0;
+            border-radius: 50%;
+            background: #000;
+            color: #fff;
+        }
+
+        .landing-page .metric-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0;
+            padding-top: 1rem;
+            border-top: 1px solid #d4d4d4;
+        }
+
+        .landing-page .metric-card {
+            padding: 0.6rem 1.25rem;
+            background: transparent;
+            border: 0;
+            border-right: 1px solid #d4d4d4;
+            border-radius: 0;
+            color: #000;
+            text-align: center;
+        }
+
+        .landing-page .metric-card:last-child {
+            border-right: 0;
+        }
+
+        .landing-page .metric-card .small {
+            color: #666;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .landing-page .section-shell {
+            padding: 5.5rem 0;
+            border-top: 0;
+        }
+
+        .landing-page .section-shell > .mb-5,
+        .landing-page .section-shell > .d-flex:first-child {
+            text-align: center;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .landing-page .section-title,
+        .landing-page .section-copy {
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .landing-page .section-title {
+            max-width: 24ch;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            letter-spacing: -0.045em;
+        }
+
+        .landing-page .section-kicker {
+            color: #555;
+            font-size: 0.66rem;
+        }
+
+        .landing-page .info-card,
+        .landing-page .service-card,
+        .landing-page .testimonial-card,
+        .landing-page .article-card,
+        .landing-page .skill-card,
+        .landing-page .project-card {
+            overflow: hidden;
+            border: 0;
+            border-radius: 22px;
+            background: #f4f4f4;
+        }
+
+        .landing-page .info-card,
+        .landing-page .service-card,
+        .landing-page .testimonial-card,
+        .landing-page .article-card,
+        .landing-page .skill-card {
+            padding: 1.75rem;
+        }
+
+        .landing-page .project-card img {
+            height: 240px;
+        }
+
+        .landing-page .project-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .landing-page #skills .skill-card,
+        .landing-page #layanan .service-card,
+        .landing-page #artikel .article-card {
+            background: #fff;
+        }
+
+        .landing-page .project-card .bg-danger {
+            background-color: #000 !important;
+        }
+
+        .landing-page .badge {
+            border-radius: 999px;
+        }
+
+        .landing-page .progress-bar {
+            background-color: var(--brand-blue) !important;
+        }
+
+        .landing-page .form-control,
+        .landing-page .input-group-text {
+            border-radius: 999px;
+            background: #fff;
+        }
+
+        .landing-page .contact-shell textarea.form-control {
+            border-radius: 18px;
+        }
+
+        .landing-page .timeline {
+            max-width: 760px;
+            margin-right: auto;
+            margin-left: auto !important;
+        }
+
+        .landing-page .timeline-dot {
+            color: #000;
+        }
+
+        .landing-page .contact-shell {
+            padding: clamp(2rem, 5vw, 4.5rem);
+            border: 0;
+            border-radius: 24px;
+            background: #000;
+            box-shadow: none;
+        }
+
+        .landing-page .contact-shell .section-title {
+            margin-left: 0;
+        }
+
+        @media (max-width: 767.98px) {
+            .landing-page .hero-shell {
+                border-radius: 0;
+            }
+
+            .landing-page .hero-section > .container {
+                max-width: none;
+                padding: 0;
+            }
+
+            .landing-page .hero-shell > .row {
+                margin: 0;
+            }
+
+            .landing-page .hero-panel {
+                min-height: 340px;
+            }
+
+            .hero-media,
+            .hero-media img,
+            .hero-media-placeholder {
+                min-height: 250px;
+            }
+
+            .landing-page .metric-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .landing-page .metric-card:nth-child(2) {
+                border-right: 0;
+            }
+
+            .landing-page .metric-card:nth-child(-n+2) {
+                border-bottom: 1px solid #d4d4d4;
+            }
+
+            .landing-page .section-shell {
+                padding: 4rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div v-if="!isAdminView" class="landing-page">
+            <nav class="navbar navbar-expand-lg navbar-dark topbar sticky-top">
+                <div class="container">
+                    <a class="navbar-brand site-brand" href="#beranda">
+                        <span class="brand-mark">{{ pengaturan.logo || 'P' }}</span>
+                        <span>{{ pengaturan.namaWebsite || 'Portfolio' }}</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li v-if="sectionVisible('showHero')" class="nav-item"><a class="nav-link" href="#beranda">Home</a></li>
+                            <li v-if="sectionVisible('showProfil')" class="nav-item"><a class="nav-link" href="#tentang">About</a></li>
+                            <li v-if="sectionVisible('showSkills')" class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                            <li v-if="sectionVisible('showProjects')" class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+                            <li v-if="sectionVisible('showPengalaman')" class="nav-item"><a class="nav-link" href="#pengalaman">Experience</a></li>
+                            <li v-if="sectionVisible('showLayanan')" class="nav-item"><a class="nav-link" href="#layanan">Services</a></li>
+                            <li v-if="sectionVisible('showTestimoni')" class="nav-item"><a class="nav-link" href="#testimoni">Testimonials</a></li>
+                            <li v-if="sectionVisible('showArtikel')" class="nav-item"><a class="nav-link" href="#artikel">Articles</a></li>
+                            <li v-if="sectionVisible('showKontak')" class="nav-item"><a class="nav-link" href="#kontak">Contact</a></li>
+                            <li class="nav-item ms-lg-3"><button class="btn btn-outline-light btn-sm"
+                                    @click="toggleView(true)">CMS Admin</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <section v-if="sectionVisible('showHero')" id="beranda" class="hero-section">
+                <div class="container">
+                    <div class="hero-shell">
+                        <div class="row g-4 align-items-center">
+                            <div class="col-lg-7">
+                                <span class="eyebrow mb-4"><i class="fa-solid fa-circle-check"></i> Available for selected projects</span>
+                                <h1 class="hero-title mb-3">{{ hero.nama }}</h1>
+                                <h3 class="fw-semibold mb-3">{{ hero.role }}</h3>
+                                <p class="hero-subtitle mb-4">{{ hero.headline }}</p>
+                                <p class="hero-subtitle mb-5">{{ hero.deskripsi }}</p>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <a v-if="sectionVisible('showKontak')" href="#kontak" class="btn btn-primary btn-lg px-4">Discuss a Project</a>
+                                    <a v-if="sectionVisible('showProjects')" href="#portfolio" class="btn btn-outline-dark btn-lg px-4">View My Work</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="hero-panel">
+                                    <div class="hero-media">
+                                        <img v-if="clientProjects.data?.[0]?.thumbnail"
+                                            :src="clientProjects.data[0].thumbnail"
+                                            :alt="clientProjects.data[0].judul || 'Featured project'">
+                                        <div v-else class="hero-media-placeholder">
+                                            <i class="fa-solid fa-code"></i>
+                                        </div>
+                                    </div>
+                                    <div class="hero-panel-caption">
+                                        <div>
+                                            <div class="caption-label">Featured work</div>
+                                            <h4>{{ clientProjects.data?.[0]?.judul || hero.role || 'Software Engineer' }}</h4>
+                                        </div>
+                                        <button v-if="clientProjects.data?.[0]" class="round-link"
+                                            @click="showProjectDetail(clientProjects.data[0])"
+                                            aria-label="View featured project">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="metric-grid">
+                                        <div class="metric-card">
+                                            <div class="fs-3 fw-bold">{{ clientProjects.total || clientProjects.data?.length || 0 }}</div>
+                                            <div class="small">Projects</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="fs-3 fw-bold">{{ clientSkills.total || clientSkills.data?.length || 0 }}</div>
+                                            <div class="small">Skills</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="fs-3 fw-bold">{{ clientLayanan.total || clientLayanan.data?.length || 0 }}</div>
+                                            <div class="small">Services</div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="fs-3 fw-bold">{{ clientArtikel.total || clientArtikel.data?.length || 0 }}</div>
+                                            <div class="small">Articles</div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showProfil')" id="tentang" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                        <div class="mb-5">
+                            <div class="section-kicker mb-2">About me</div>
+                            <h2 class="section-title">How I work</h2>
+                            <p class="section-copy mb-0">A brief overview of my experience, core capabilities, and technology focus.</p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="info-card h-100">
+                                <h5><i class="fa-solid fa-briefcase text-primary me-2"></i> Professional Profile</h5>
+                                <p>{{ profil.deskripsi || 'Not provided yet.' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-card h-100">
+                                <h5><i class="fa-solid fa-graduation-cap text-success me-2"></i> Expertise</h5>
+                                <p>{{ profil.keahlian || 'Not provided yet.' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-card h-100">
+                                <h5><i class="fa-solid fa-microchip text-warning me-2"></i> Technology Focus</h5>
+                                <p>{{ profil.fokus || 'Not provided yet.' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showSkills')" id="skills" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                        <div class="mb-5">
+                            <div class="section-kicker mb-2">Capabilities</div>
+                            <h2 class="section-title">Technologies I use</h2>
+                        </div>
+                        <div class="row row-cols-2 row-cols-md-4 g-4">
+                            <div class="col" v-for="s in clientSkills.data" :key="s.id">
+                                <div class="skill-card text-center h-100">
+                                <h5 class="mb-2 fw-semibold">{{ s.nama }}</h5>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                        :style="{width: s.tingkat + '%'}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showProjects')" id="portfolio" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+                        <div>
+                            <div class="section-kicker mb-2">Selected work</div>
+                            <h2 class="section-title mb-2">Recent projects</h2>
+                            <p class="section-copy mb-0">A selection of solutions I have designed and developed.</p>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search projects by title..."
+                                    v-model="projectQuery.search" @input="fetchClientProjects">
+                                <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-4" v-for="p in clientProjects.data" :key="p.id">
+                            <div class="project-card h-100">
+                                <span v-if="p.featured"
+                                    class="position-absolute top-0 end-0 badge bg-danger m-3">Featured</span>
+                                <img :src="p.thumbnail || 'https://via.placeholder.com/400x200?text=No+Image'"
+                                    class="card-img-top" alt="Thumbnail" @click="openProjectLink(p)">
+                                <div class="card-body d-flex flex-column">
+                                    <span class="badge bg-secondary mb-2 align-self-start">{{ p.kategori }}</span>
+                                    <h5 class="card-title fw-bold">{{ p.judul }}</h5>
+                                    <p class="card-text text-muted flex-grow-1 small">{{ p.deskripsiSingkat }}</p>
+                                    <div class="mb-3"><small class="text-primary fw-semibold">{{ p.teknologi }}</small>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a v-if="p.linkDemo" :href="p.linkDemo" target="_blank"
+                                            class="btn btn-sm btn-primary flex-fill"><i
+                                                class="fa fa-external-link me-1"></i> Demo</a>
+                                        <a v-if="p.linkGithub" :href="p.linkGithub" target="_blank"
+                                            class="btn btn-sm btn-dark flex-fill"><i class="fab fa-github me-1"></i>
+                                            GitHub</a>
+                                        <button class="btn btn-sm btn-outline-secondary"
+                                            @click="showProjectDetail(p)">Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="mt-5" v-if="clientProjects.totalPages > 1">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" :class="{disabled: projectQuery.page === 1}">
+                                <button class="page-link"
+                                    @click="changeClientProjectPage(projectQuery.page - 1)">Previous</button>
+                            </li>
+                            <li class="page-item" v-for="page in clientProjects.totalPages"
+                                :class="{active: projectQuery.page === page}">
+                                <button class="page-link" @click="changeClientProjectPage(page)">{{ page }}</button>
+                            </li>
+                            <li class="page-item" :class="{disabled: projectQuery.page === clientProjects.totalPages}">
+                                <button class="page-link"
+                                    @click="changeClientProjectPage(projectQuery.page + 1)">Next</button>
+                            </li>
+                        </ul>
+                    </nav>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showPengalaman')" id="pengalaman" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                    <div class="mb-5">
+                        <div class="section-kicker mb-2">Experience</div>
+                        <h2 class="section-title">Professional journey</h2>
+                    </div>
+                    <div class="timeline border-start border-3 ps-4 ms-2 position-relative">
+                        <div class="mb-4 position-relative" v-for="exp in clientPengalaman.data" :key="exp.id">
+                            <i class="fa fa-circle position-absolute timeline-dot"></i>
+                            <h5 class="fw-bold m-0">{{ exp.posisi }}</h5>
+                            <div class="text-muted small mb-2">{{ exp.perusahaan }} | {{ exp.periode }}</div>
+                            <p>{{ exp.tanggungJawab }}</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showLayanan')" id="layanan" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                    <div class="mb-5">
+                        <div class="section-kicker mb-2">Services</div>
+                        <h2 class="section-title">How I can help</h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-4" v-for="l in clientLayanan.data" :key="l.id">
+                            <div class="service-card text-center h-100">
+                                <div class="text-primary mb-3"><i class="fa fa-cubes fa-2x"></i></div>
+                                <h5 class="fw-bold">{{ l.nama }}</h5>
+                                <p class="text-muted small">{{ l.deskripsi }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showTestimoni')" id="testimoni" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                    <div class="mb-5">
+                        <div class="section-kicker mb-2">Testimonials</div>
+                        <h2 class="section-title">What clients say</h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6" v-for="t in clientTestimoni.data" :key="t.id">
+                            <div class="testimonial-card h-100">
+                                <p class="fst-italic">"{{ t.review }}"</p>
+                                <hr>
+                                <h6 class="fw-bold m-0">{{ t.nama }}</h6>
+                                <small class="text-muted">{{ t.perusahaan }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showArtikel')" id="artikel" class="py-4">
+                <div class="container">
+                    <div class="section-shell">
+                    <div class="mb-5">
+                        <div class="section-kicker mb-2">Writing</div>
+                        <h2 class="section-title">Notes and articles</h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-4" v-for="a in clientArtikel.data" :key="a.id">
+                            <div class="article-card h-100">
+                                <small class="text-muted mb-2">{{ a.tanggal }}</small>
+                                <h5 class="fw-bold">{{ a.judul }}</h5>
+                                <p class="text-muted small">{{ a.konten ? a.konten.substring(0, 120) + '...' : '' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <section v-if="sectionVisible('showKontak')" id="kontak" class="py-4">
+                <div class="container">
+                    <div class="contact-shell">
+                    <div class="mb-5">
+                        <div class="section-kicker text-light opacity-75 mb-2">Contact</div>
+                        <h2 class="section-title text-white">Let’s work together</h2>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-5">
+                            <h4 class="fw-semibold mb-3">Contact Information</h4>
+                            <p><i class="fab fa-whatsapp text-success me-2"></i> {{ kontak.whatsapp }}</p>
+                            <p><i class="fa-regular fa-envelope text-danger me-2"></i> {{ kontak.email }}</p>
+                            <p><i class="fab fa-linkedin text-primary me-2"></i> {{ kontak.linkedin }}</p>
+                            <p><i class="fab fa-github text-light me-2"></i> {{ kontak.github }}</p>
+                            <p><i class="fa-solid fa-location-dot text-warning me-2"></i> {{ kontak.lokasi }}</p>
+                        </div>
+                        <div class="col-md-7">
+                            <form
+                                @submit.prevent="Swal.fire('Success', 'Your message has been sent (simulation).', 'success')">
+                                <div class="mb-3"><input type="text" class="form-control" placeholder="Your name"
+                                        required></div>
+                                <div class="mb-3"><input type="email" class="form-control" placeholder="Your email"
+                                        required></div>
+                                <div class="mb-3"><textarea class="form-control" rows="4" placeholder="Your message"
+                                        required></textarea></div>
+                                <button type="submit" class="btn btn-warning px-4">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer v-if="sectionVisible('showFooter')" class="text-center py-4">
+                <div class="container">
+                    <p class="m-0 small footer-shell">{{ pengaturan.footerNote }}</p>
+                </div>
+            </footer>
+        </div>
+
+        <div v-if="isAdminView && !token" class="container py-5 mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="admin-login-card">
+                        <h3 class="text-center fw-bold mb-4">CMS Admin Login</h3>
+                        <form @submit.prevent="handleLogin">
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" v-model="loginForm.username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" v-model="loginForm.password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                            <button type="button" class="btn btn-link w-100 mt-2 text-decoration-none btn-sm"
+                                @click="toggleView(false)">Back to Portfolio</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="isAdminView && token && !sessionValidated" class="container py-5 mt-5 text-center">
+            <span class="spinner-border spinner-border-sm me-2"></span>Validating session...
+        </div>
+
+        <div v-if="isAdminView && token && sessionValidated" class="container-fluid">
+            <div class="row">
+                <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3 navbar-expand-md">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h4 class="fw-bold m-0 text-primary">CMS Panel</h4>
+                        <button class="btn btn-sm btn-danger d-md-none" data-bs-toggle="collapse"
+                            data-bs-target=".sidebar">X</button>
+                    </div>
+                    <ul class="nav flex-column gap-1">
+                        <li class="nav-item" v-for="menu in menus" :key="menu">
+                            <a href="#" class="nav-link" :class="{active: activeMenu === menu}"
+                                @click.prevent="setMenu(menu)">
+                                <i class="fa fa-angle-right me-2"></i>{{ menu }}
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <button class="btn btn-danger w-100 btn-sm" @click="handleLogout">Logout</button>
+                        </li>
+                    </ul>
+                </nav>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                    <div
+                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2 fw-bold">{{ activeMenu }}</h1>
+                        <button class="btn btn-sm btn-outline-secondary" @click="toggleView(false)">View
+                            Website</button>
+                    </div>
+
+                    <div v-if="activeMenu === 'Dashboard'">
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <div class="dashboard-card">
+                                    <h5 class="fw-bold text-muted small">Content Overview</h5>
+                                    <canvas id="barChart" height="200"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="dashboard-card">
+                                    <h5 class="fw-bold text-muted small">Project Growth</h5>
+                                    <canvas id="lineChart" height="200"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="dashboard-card">
+                                    <h5 class="fw-bold text-muted small">Cumulative Views</h5>
+                                    <canvas id="areaChart" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Hero'">
+                        <div class="cms-panel-card">
+                            <form @submit.prevent="updateSingleton('hero', cmsData.hero)">
+                                <div class="mb-3"><label class="form-label fw-semibold">Full Name</label><input
+                                        type="text" class="form-control" v-model="cmsData.hero.nama"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Primary Role</label><input
+                                        type="text" class="form-control" v-model="cmsData.hero.role"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Short Headline</label><input
+                                        type="text" class="form-control" v-model="cmsData.hero.headline"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Professional
+                                        Description</label><textarea class="form-control" rows="4"
+                                        v-model="cmsData.hero.deskripsi"></textarea></div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Profile'">
+                        <div class="cms-panel-card">
+                            <form @submit.prevent="updateSingleton('profil', cmsData.profil)">
+                                <div class="mb-3"><label class="form-label fw-semibold">Short Profile /
+                                        Description</label><textarea class="form-control" rows="3"
+                                        v-model="cmsData.profil.deskripsi"></textarea></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Areas of Expertise</label><textarea
+                                        class="form-control" rows="3" v-model="cmsData.profil.keahlian"></textarea>
+                                </div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Technology Focus</label><textarea
+                                        class="form-control" rows="3" v-model="cmsData.profil.fokus"></textarea></div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Skills'">
+                        <button class="btn btn-primary mb-3" @click="openCrudModal('skills')">Add Skill</button>
+                        <div class="cms-panel-card">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Skill Name</th>
+                                        <th>Level (%)</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="s in tableData.skills.data" :key="s.id">
+                                        <td>{{ s.nama }}</td>
+                                        <td>{{ s.tingkat }}%</td>
+                                        <td><span class="badge" :class="s.statusTampil ? 'bg-success':'bg-secondary'">{{ s.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('skills', s)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('skills', s.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Project Portfolio'">
+                        <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
+                            <button class="btn btn-primary" @click="openCrudModal('projects')">Add Project</button>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control form-control-sm" placeholder="Search..."
+                                    v-model="searchQueries.projects" @input="fetchTableData('projects')">
+                            </div>
+                        </div>
+                        <div class="cms-panel-card table-responsive">
+                            <table class="table align-middle text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Thumbnail</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Featured</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="p in tableData.projects.data" :key="p.id">
+                                        <td>{{ p.urutan }}</td>
+                                        <td><img :src="p.thumbnail || 'https://via.placeholder.com/50'"
+                                                style="width:50px; height:40px; object-fit:cover;" class="rounded"></td>
+                                        <td class="fw-bold">{{ p.judul }}</td>
+                                        <td>{{ p.kategori }}</td>
+                                        <td><span class="badge" :class="p.statusTampil ? 'bg-success':'bg-secondary'">{{
+                                                p.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td><span class="badge bg-danger" v-if="p.featured">Yes</span><span
+                                                v-else>-</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('projects', p)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('projects', p.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Experience'">
+                        <button class="btn btn-primary mb-3" @click="openCrudModal('pengalaman')">Add Experience</button>
+                        <div class="cms-panel-card table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Position</th>
+                                        <th>Company</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="e in tableData.pengalaman.data" :key="e.id">
+                                        <td class="fw-bold">{{ e.posisi }}</td>
+                                        <td>{{ e.perusahaan }}</td>
+                                        <td>{{ e.periode }}</td>
+                                        <td><span class="badge" :class="e.statusTampil ? 'bg-success':'bg-secondary'">{{ e.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('pengalaman', e)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('pengalaman', e.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Services'">
+                        <button class="btn btn-primary mb-3" @click="openCrudModal('layanan')">Add Service</button>
+                        <div class="cms-panel-card">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Service Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="l in tableData.layanan.data" :key="l.id">
+                                        <td class="fw-bold">{{ l.nama }}</td>
+                                        <td>{{ l.deskripsi }}</td>
+                                        <td><span class="badge" :class="l.statusTampil ? 'bg-success':'bg-secondary'">{{ l.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('layanan', l)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('layanan', l.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Testimonials'">
+                        <button class="btn btn-primary mb-3" @click="openCrudModal('testimoni')">Add Testimonial</button>
+                        <div class="cms-panel-card">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <th>Company</th>
+                                        <th>Review</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="t in tableData.testimoni.data" :key="t.id">
+                                        <td>{{ t.nama }}</td>
+                                        <td>{{ t.perusahaan }}</td>
+                                        <td>{{ t.review }}</td>
+                                        <td><span class="badge" :class="t.statusTampil ? 'bg-success':'bg-secondary'">{{ t.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('testimoni', t)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('testimoni', t.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Articles'">
+                        <button class="btn btn-primary mb-3" @click="openCrudModal('artikel')">Write Article</button>
+                        <div class="cms-panel-card">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="a in tableData.artikel.data" :key="a.id">
+                                        <td>{{ a.tanggal }}</td>
+                                        <td class="fw-bold">{{ a.judul }}</td>
+                                        <td><span class="badge" :class="a.statusTampil ? 'bg-success':'bg-secondary'">{{ a.statusTampil ? 'Visible' : 'Hidden' }}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-warning me-2"
+                                                @click="openCrudModal('artikel', a)">Edit</button>
+                                            <button class="btn btn-sm btn-danger"
+                                                @click="deleteCrudItem('artikel', a.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Contact'">
+                        <div class="cms-panel-card">
+                            <form @submit.prevent="updateSingleton('kontak', cmsData.kontak)">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label fw-semibold">WhatsApp</label><input
+                                            type="text" class="form-control" v-model="cmsData.kontak.whatsapp"></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">Email</label><input
+                                            type="email" class="form-control" v-model="cmsData.kontak.email"></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">LinkedIn
+                                            Link</label><input type="text" class="form-control"
+                                            v-model="cmsData.kontak.linkedin"></div>
+                                    <div class="col-md-6"><label class="form-label fw-semibold">GitHub
+                                            Link</label><input type="text" class="form-control"
+                                            v-model="cmsData.kontak.github"></div>
+                                    <div class="col-md-12"><label class="form-label fw-semibold">Location</label><input type="text" class="form-control"
+                                            v-model="cmsData.kontak.lokasi"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-4">Save Contact</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Website Settings'">
+                        <div class="cms-panel-card">
+                            <form @submit.prevent="updateSingleton('pengaturan', cmsData.pengaturan)">
+                                <div class="mb-3"><label class="form-label fw-semibold">Website Name</label><input
+                                        type="text" class="form-control" v-model="cmsData.pengaturan.namaWebsite"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Emoji / Logo</label><input
+                                        type="text" class="form-control" v-model="cmsData.pengaturan.logo"></div>
+                                <div class="mb-3"><label class="form-label fw-semibold">Footer Text Note</label><input
+                                        type="text" class="form-control" v-model="cmsData.pengaturan.footerNote"></div>
+                                <hr class="my-4">
+                                <h6 class="fw-bold mb-3">Landing Page Sections</h6>
+                                <p class="text-muted small">Choose which sections are visible. Hidden content remains saved in the CMS.</p>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-sm-6 col-lg-4" v-for="section in landingSectionOptions" :key="section.key">
+                                        <div class="form-check form-switch border rounded p-3 ps-5 h-100">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                :id="section.key" v-model="cmsData.pengaturan[section.key]">
+                                            <label class="form-check-label fw-semibold" :for="section.key">{{ section.label }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div v-if="activeMenu === 'Admin'">
+                        <div class="cms-panel-card" style="max-width: 500px;">
+                            <h5>Change Admin Password</h5>
+                            <hr>
+                            <form @submit.prevent="changeAdminPassword">
+                                <div class="mb-3">
+                                    <label class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" autocomplete="current-password"
+                                        v-model="passwordForm.currentPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" class="form-control" autocomplete="new-password"
+                                        v-model="passwordForm.newPassword" minlength="8" maxlength="72" required>
+                                    <div class="form-text">Minimum 8 characters.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" autocomplete="new-password"
+                                        v-model="passwordForm.confirmPassword" minlength="8" maxlength="72" required>
+                                </div>
+                                <button type="submit" class="btn btn-success" :disabled="changingPassword">
+                                    <span v-if="changingPassword" class="spinner-border spinner-border-sm me-2"></span>
+                                    Update Password
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <div class="modal fade" id="crudModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">{{ formState.isEdit ? 'Edit Entry' : 'Add Entry' }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form @submit.prevent="saveCrudData">
+                        <div class="modal-body">
+                            <div v-if="formState.type === 'skills'">
+                                <div class="mb-3"><label class="form-label">Skill Name</label><input type="text"
+                                        class="form-control" v-model="formData.nama" required></div>
+                                <div class="mb-3"><label class="form-label">Proficiency Level (%)</label><input
+                                        type="number" class="form-control" v-model="formData.tingkat" min="0" max="100"
+                                        required></div>
+                            </div>
+
+                            <div v-if="formState.type === 'projects'">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="form-label">Project Title</label><input
+                                            type="text" class="form-control" v-model="formData.judul" required></div>
+                                    <div class="col-md-6"><label class="form-label">Category</label><input type="text"
+                                            class="form-control" placeholder="E.g. Web App / Rest API"
+                                            v-model="formData.kategori" required></div>
+                                    <div class="col-md-12">
+                                        <label class="form-label">Project Thumbnail</label>
+                                        <input type="file" class="form-control" accept="image/jpeg,image/png,image/webp,image/gif"
+                                            @change="uploadProjectImage" :disabled="uploadingImage">
+                                        <div class="form-text">JPG, PNG, WebP, atau GIF. Maksimal 5 MB.</div>
+                                        <div v-if="uploadingImage" class="small text-muted mt-2">
+                                            <span class="spinner-border spinner-border-sm me-2"></span>Uploading to R2...
+                                        </div>
+                                        <img v-if="formData.thumbnail" :src="formData.thumbnail"
+                                            class="img-fluid rounded border mt-3" alt="Project thumbnail preview"
+                                            style="max-height: 180px; object-fit: cover;">
+                                        <input type="url" class="form-control mt-2" placeholder="Or paste an image URL"
+                                            v-model="formData.thumbnail">
+                                    </div>
+                                    <div class="col-md-12"><label class="form-label">Short Description</label><input
+                                            type="text" class="form-control" v-model="formData.deskripsiSingkat"
+                                            required></div>
+                                    <div class="col-md-12"><label class="form-label">Full Description (Case
+                                            Study)</label><textarea class="form-control" rows="3"
+                                            v-model="formData.deskripsiLengkap"></textarea></div>
+                                    <div class="col-md-12"><label class="form-label">Technology / Tech Stack (Comma
+                                            Separated)</label><input type="text" class="form-control"
+                                            placeholder="Node.js, React, MySQL" v-model="formData.teknologi" required>
+                                    </div>
+                                    <div class="col-md-4"><label class="form-label">Link Demo</label><input type="text"
+                                            class="form-control" v-model="formData.linkDemo"></div>
+                                    <div class="col-md-4"><label class="form-label">Link GitHub</label><input
+                                            type="text" class="form-control" v-model="formData.linkGithub"></div>
+                                    <div class="col-md-4"><label class="form-label">Documentation Link</label><input
+                                            type="text" class="form-control" v-model="formData.linkDokumentasi"></div>
+                                    <div class="col-md-4"><label class="form-label">Display Order</label><input
+                                            type="number" class="form-control" v-model="formData.urutan"></div>
+                                    <div class="col-md-4 mt-5 form-check"><input type="checkbox"
+                                            class="form-check-input" id="st" v-model="formData.statusTampil"><label
+                                            class="form-check-label" for="st">Show on Website</label></div>
+                                    <div class="col-md-4 mt-5 form-check"><input type="checkbox"
+                                            class="form-check-input" id="fp" v-model="formData.featured"><label
+                                            class="form-check-label" for="fp">Featured Project</label></div>
+                                </div>
+                            </div>
+
+                            <div v-if="formState.type === 'pengalaman'">
+                                <div class="mb-3"><label class="form-label">Job Title</label><input type="text"
+                                        class="form-control" v-model="formData.posisi" required></div>
+                                <div class="mb-3"><label class="form-label">Company</label><input type="text"
+                                        class="form-control" v-model="formData.perusahaan" required></div>
+                                <div class="mb-3"><label class="form-label">Employment Period</label><input type="text"
+                                        class="form-control" placeholder="E.g. Jan 2024 - Dec 2025"
+                                        v-model="formData.periode" required></div>
+                                <div class="mb-3"><label class="form-label">Key Responsibilities</label><textarea
+                                        class="form-control" rows="3" v-model="formData.tanggungJawab"></textarea></div>
+                            </div>
+
+                            <div v-if="formState.type === 'layanan'">
+                                <div class="mb-3"><label class="form-label">Service Name</label><input type="text"
+                                        class="form-control" v-model="formData.nama" required></div>
+                                <div class="mb-3"><label class="form-label">Service Description</label><textarea
+                                        class="form-control" rows="3" v-model="formData.deskripsi" required></textarea>
+                                </div>
+                            </div>
+
+                            <div v-if="formState.type === 'testimoni'">
+                                <div class="mb-3"><label class="form-label">Client Name</label><input type="text"
+                                        class="form-control" v-model="formData.nama" required></div>
+                                <div class="mb-3"><label class="form-label">Company Name</label><input type="text"
+                                        class="form-control" v-model="formData.perusahaan" required></div>
+                                <div class="mb-3"><label class="form-label">Review / Testimonial</label><textarea
+                                        class="form-control" rows="3" v-model="formData.review" required></textarea>
+                                </div>
+                            </div>
+
+                            <div v-if="formState.type === 'artikel'">
+                                <div class="mb-3"><label class="form-label">Article Title</label><input type="text"
+                                        class="form-control" v-model="formData.judul" required></div>
+                                <div class="mb-3"><label class="form-label">Publication Date</label><input type="text"
+                                        class="form-control" placeholder="June 23, 2026" v-model="formData.tanggal"
+                                        required></div>
+                                <div class="mb-3"><label class="form-label">Article Content</label><textarea
+                                        class="form-control" rows="5" v-model="formData.konten" required></textarea>
+                                </div>
+                            </div>
+
+                            <div v-if="formState.type && formState.type !== 'projects'" class="form-check form-switch mt-4">
+                                <input class="form-check-input" type="checkbox" id="itemVisibility"
+                                    v-model="formData.statusTampil">
+                                <label class="form-check-label fw-semibold" for="itemVisibility">Show this item on the landing page</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" :disabled="uploadingImage">Save Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    isAdminView: false,
+                    token: localStorage.getItem('token') || '',
+                    activeMenu: 'Dashboard',
+                    menus: ['Dashboard', 'Hero', 'Profile', 'Skills', 'Project Portfolio', 'Experience', 'Services', 'Testimonials', 'Articles', 'Contact', 'Website Settings', 'Admin'],
+                    landingSectionOptions: [
+                        { key: 'showHero', label: 'Hero' },
+                        { key: 'showProfil', label: 'About / Profile' },
+                        { key: 'showSkills', label: 'Skills' },
+                        { key: 'showProjects', label: 'Projects' },
+                        { key: 'showPengalaman', label: 'Experience' },
+                        { key: 'showLayanan', label: 'Services' },
+                        { key: 'showTestimoni', label: 'Testimonials' },
+                        { key: 'showArtikel', label: 'Articles' },
+                        { key: 'showKontak', label: 'Contact' },
+                        { key: 'showFooter', label: 'Footer' }
+                    ],
+
+                    // Client States & Singletons
+                    hero: {}, profil: {}, kontak: {}, pengaturan: {},
+                    clientProjects: { data: [], totalPages: 1 },
+                    projectQuery: { page: 1, limit: 6, search: '' },
+
+                    clientSkills: [], clientPengalaman: [], clientLayanan: [], clientTestimoni: [], clientArtikel: [],
+
+                    // Auth State
+                    loginForm: { username: '', password: '' },
+                    passwordForm: { currentPassword: '', newPassword: '', confirmPassword: '' },
+                    changingPassword: false,
+                    sessionValidated: false,
+                    authTimer: null,
+
+                    // CMS States & Inputs Container
+                    cmsData: { hero: {}, profil: {}, kontak: {}, pengaturan: {} },
+                    tableData: { projects: {}, skills: {}, pengalaman: {}, layanan: {}, testimoni: {}, artikel: {} },
+                    searchQueries: { projects: '', skills: '', pengalaman: '', layanan: '', testimoni: '', artikel: '' },
+
+                    // Modal Dynamic Form State
+                    formState: { isEdit: false, type: '', currentId: null },
+                    formData: {},
+                    uploadingImage: false,
+                    bootstrapModal: null,
+                    chartInstances: []
+                }
+            },
+            mounted() {
+                this.loadClientLandingData();
+                this.bootstrapModal = new bootstrap.Modal(document.getElementById('crudModal'));
+            },
+            methods: {
+                sectionVisible(key) {
+                    return this.pengaturan[key] !== false && this.pengaturan[key] !== 0;
+                },
+                async loadClientLandingData() {
+                    try {
+                        const [h, p, k, s] = await Promise.all([
+                            fetch('/api/hero').then(res => res.json()),
+                            fetch('/api/profil').then(res => res.json()),
+                            fetch('/api/kontak').then(res => res.json()),
+                            fetch('/api/pengaturan').then(res => res.json())
+                        ]);
+                        this.hero = h; this.profil = p; this.kontak = k; this.pengaturan = s;
+
+                        this.fetchClientProjects();
+                        this.clientSkills = await fetch('/api/skills?limit=50').then(res => res.json());
+                        this.clientPengalaman = await fetch('/api/pengalaman?limit=20').then(res => res.json());
+                        this.clientLayanan = await fetch('/api/layanan?limit=20').then(res => res.json());
+                        this.clientTestimoni = await fetch('/api/testimoni?limit=20').then(res => res.json());
+                        this.clientArtikel = await fetch('/api/artikel?limit=3').then(res => res.json());
+                    } catch (err) {
+                        console.error("Failed to load data:", err);
+                    }
+                },
+                async fetchClientProjects() {
+                    const url = `/api/projects?page=${this.projectQuery.page}&limit=${this.projectQuery.limit}&search=${this.projectQuery.search}`;
+                    this.clientProjects = await fetch(url).then(res => res.json());
+                },
+                changeClientProjectPage(page) {
+                    this.projectQuery.page = page;
+                    this.fetchClientProjects();
+                },
+                openProjectLink(p) {
+                    const targetUrl = p.linkDemo || p.linkGithub || p.linkDokumentasi || '#portfolio';
+                    window.open(targetUrl, '_blank');
+                },
+                showProjectDetail(p) {
+                    Swal.fire({
+                        title: `<strong>${p.judul}</strong>`,
+                        html: `<div class="text-start">
+                        <img src="${p.thumbnail}" class="img-fluid rounded mb-3">
+                        <p><b>Category:</b> ${p.kategori}</p>
+                        <p><b>Description:</b> ${p.deskripsiLengkap || p.deskripsiSingkat}</p>
+                        <p><b>Tech Stack:</b> ${p.teknologi}</p>
+                       </div>`,
+                        showCloseButton: true,
+                        confirmButtonText: 'Close'
+                    });
+                },
+                async toggleView(isAdmin) {
+                    this.isAdminView = isAdmin;
+                    this.sessionValidated = false;
+                    if (!isAdmin || !this.token) return;
+
+                    if (await this.validateSession()) {
+                        this.initCmsLayout();
+                    }
+                },
+                async validateSession() {
+                    try {
+                        const res = await fetch('/api/auth/session', {
+                            headers: { 'Authorization': `Bearer ${this.token}` }
+                        });
+                        if (res.status === 401 || res.status === 403) {
+                            this.expireSession(true);
+                            return false;
+                        }
+                        if (!res.ok) throw new Error('Session validation failed');
+
+                        this.sessionValidated = true;
+                        this.scheduleSessionExpiry();
+                        return true;
+                    } catch (error) {
+                        this.isAdminView = false;
+                        Swal.fire('Connection Error', 'The session could not be validated.', 'error');
+                        return false;
+                    }
+                },
+                scheduleSessionExpiry() {
+                    if (this.authTimer) clearTimeout(this.authTimer);
+                    try {
+                        const encodedPayload = this.token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+                        const payload = JSON.parse(atob(encodedPayload.padEnd(Math.ceil(encodedPayload.length / 4) * 4, '=')));
+                        const remainingMs = (payload.exp * 1000) - Date.now();
+                        if (!payload.exp || remainingMs <= 0) return this.expireSession(this.isAdminView);
+                        this.authTimer = setTimeout(() => this.expireSession(this.isAdminView), remainingMs);
+                    } catch {
+                        this.expireSession(this.isAdminView);
+                    }
+                },
+                expireSession(showAlert = true) {
+                    const hadToken = !!this.token;
+                    this.token = '';
+                    this.sessionValidated = false;
+                    localStorage.removeItem('token');
+                    if (this.authTimer) clearTimeout(this.authTimer);
+                    this.authTimer = null;
+                    this.destroyCharts();
+                    if (this.bootstrapModal) this.bootstrapModal.hide();
+                    if (showAlert && hadToken) {
+                        Swal.fire('Session Expired', 'Please sign in again.', 'warning');
+                    }
+                },
+                async authFetch(url, options = {}) {
+                    const res = await fetch(url, {
+                        ...options,
+                        headers: {
+                            ...(options.headers || {}),
+                            'Authorization': `Bearer ${this.token}`
+                        }
+                    });
+                    if (res.status === 401 || res.status === 403) {
+                        this.expireSession(true);
+                        throw new Error('Session expired');
+                    }
+                    return res;
+                },
+                async handleLogin() {
+                    try {
+                        const res = await fetch('/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.loginForm)
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message);
+
+                        this.token = data.token;
+                        localStorage.setItem('token', data.token);
+                        this.sessionValidated = true;
+                        this.scheduleSessionExpiry();
+                        Swal.fire('Welcome', 'You are now signed in to the CMS.', 'success');
+                        this.initCmsLayout();
+                    } catch (err) {
+                        Swal.fire('Error Login', err.message, 'error');
+                    }
+                },
+                handleLogout() {
+                    this.expireSession(false);
+                    Swal.fire('Signed Out', 'You have signed out of the admin panel.', 'success');
+                },
+                async changeAdminPassword() {
+                    if (this.passwordForm.newPassword !== this.passwordForm.confirmPassword) {
+                        return Swal.fire('Validation Failed', 'New password confirmation does not match.', 'error');
+                    }
+
+                    this.changingPassword = true;
+                    try {
+                        const res = await this.authFetch('/api/auth/password', {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                currentPassword: this.passwordForm.currentPassword,
+                                newPassword: this.passwordForm.newPassword
+                            })
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Password update failed');
+
+                        this.passwordForm = { currentPassword: '', newPassword: '', confirmPassword: '' };
+                        this.expireSession(false);
+                        Swal.fire('Password Updated', 'Please sign in again with your new password.', 'success');
+                    } catch (error) {
+                        if (!this.token) return;
+                        Swal.fire('Update Failed', error.message, 'error');
+                    } finally {
+                        this.changingPassword = false;
+                    }
+                },
+                setMenu(menu) {
+                    this.activeMenu = menu;
+                    this.initCmsLayout();
+                },
+                initCmsLayout() {
+                    // Load content bases on active CMS navigation selection
+                    if (this.activeMenu === 'Dashboard') this.loadDashboardCharts();
+                    else if (['Hero', 'Profile', 'Contact', 'Website Settings'].includes(this.activeMenu)) {
+                        const mapper = { 'Hero': 'hero', 'Profile': 'profil', 'Contact': 'kontak', 'Website Settings': 'pengaturan' };
+                        this.authFetch(`/api/${mapper[this.activeMenu]}`).then(res => res.json()).then(data => this.cmsData[mapper[this.activeMenu]] = data);
+                    } else {
+                        const mapper = { 'Skills': 'skills', 'Project Portfolio': 'projects', 'Experience': 'pengalaman', 'Services': 'layanan', 'Testimonials': 'testimoni', 'Articles': 'artikel' };
+                        this.fetchTableData(mapper[this.activeMenu]);
+                    }
+                },
+                async updateSingleton(endpoint, payload) {
+                    try {
+                        const res = await this.authFetch(`/api/${endpoint}`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (!res.ok) throw new Error();
+                        Swal.fire('Saved', 'Your changes have been saved.', 'success');
+                        this.loadClientLandingData();
+                    } catch {
+                        if (!this.token) return;
+                        Swal.fire('Update Failed', 'The data could not be updated.', 'error');
+                    }
+                },
+                async fetchTableData(endpoint) {
+                    const search = this.searchQueries[endpoint] || '';
+                    const res = await this.authFetch(`/api/${endpoint}?limit=100&search=${search}`).then(res => res.json());
+                    this.tableData[endpoint] = res;
+                },
+                openCrudModal(type, item = null) {
+                    this.formState.type = type;
+                    this.formState.isEdit = !!item;
+                    this.formState.currentId = item ? item.id : null;
+                    this.formData = item
+                        ? { ...item }
+                        : (type === 'projects'
+                            ? { statusTampil: true, featured: false, urutan: 0 }
+                            : { statusTampil: true });
+                    this.uploadingImage = false;
+                    this.bootstrapModal.show();
+                },
+                async uploadProjectImage(event) {
+                    const file = event.target.files?.[0];
+                    if (!file) return;
+
+                    this.uploadingImage = true;
+                    try {
+                        const body = new FormData();
+                        body.append('image', file);
+                        const res = await this.authFetch('/api/uploads/images', {
+                            method: 'POST',
+                            body
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Upload failed');
+
+                        this.formData.thumbnail = data.url;
+                        Swal.fire('Uploaded', 'The image has been uploaded to R2.', 'success');
+                    } catch (error) {
+                        event.target.value = '';
+                        if (!this.token) return;
+                        Swal.fire('Upload Failed', error.message, 'error');
+                    } finally {
+                        this.uploadingImage = false;
+                    }
+                },
+                async saveCrudData() {
+                    try {
+                        const type = this.formState.type;
+                        const url = this.formState.isEdit ? `/api/${type}/${this.formState.currentId}` : `/api/${type}`;
+                        const method = this.formState.isEdit ? 'PUT' : 'POST';
+
+                        const res = await this.authFetch(url, {
+                            method: method,
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.formData)
+                        });
+                        if (!res.ok) throw new Error();
+
+                        this.bootstrapModal.hide();
+                        Swal.fire('Saved', 'The entry has been saved to the database.', 'success');
+                        this.fetchTableData(type);
+                        this.loadClientLandingData();
+                    } catch {
+                        if (!this.token) return;
+                        Swal.fire('Save Failed', 'The entry could not be saved.', 'error');
+                    }
+                },
+                deleteCrudItem(type, id) {
+                    Swal.fire({
+                        title: 'Delete this entry?',
+                        text: "This action cannot be undone.",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Delete'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            await this.authFetch(`/api/${type}/${id}`, { method: 'DELETE' });
+                            Swal.fire('Deleted', 'The entry has been deleted.', 'success');
+                            this.fetchTableData(type);
+                            this.loadClientLandingData();
+                        }
+                    });
+                },
+                async loadDashboardCharts() {
+                    // Memastikan canvas ter-render penuh sebelum inisialisasi Chart.js
+                    this.$nextTick(async () => {
+                        this.destroyCharts();
+                        const res = await this.authFetch('/api/dashboard/stats').then(r => r.json());
+
+                        // 1. Bar Chart
+                        this.chartInstances.push(new Chart(document.getElementById('barChart'), {
+                            type: 'bar',
+                            data: { labels: res.labels, datasets: [{ label: 'Content Items', data: res.barData, backgroundColor: '#0d6efd' }] }
+                        }));
+
+                        // 2. Line Chart
+                        this.chartInstances.push(new Chart(document.getElementById('lineChart'), {
+                            type: 'line',
+                            data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Project Growth', data: res.lineData, borderColor: '#ffc107', tension: 0.1 }] }
+                        }));
+
+                        // 3. Area Chart
+                        this.chartInstances.push(new Chart(document.getElementById('areaChart'), {
+                            type: 'line',
+                            data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Visitor Views', data: res.areaData, backgroundColor: 'rgba(25, 135, 84, 0.2)', borderColor: '#198754', fill: true }] }
+                        }));
+                    });
+                },
+                destroyCharts() {
+                    this.chartInstances.forEach(chart => chart.destroy());
+                    this.chartInstances = [];
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
