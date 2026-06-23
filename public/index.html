@@ -426,6 +426,372 @@
             border-radius: 22px;
         }
 
+        .project-modal-dialog {
+            max-width: 1120px;
+        }
+
+        .project-modal-content {
+            max-height: calc(100vh - 2rem);
+            overflow: hidden;
+            border: 0;
+            border-radius: 24px;
+            box-shadow: 0 28px 80px rgba(15, 23, 42, 0.2);
+        }
+
+        .project-modal-content > form {
+            display: flex;
+            min-height: 0;
+            flex: 1 1 auto;
+            flex-direction: column;
+        }
+
+        .project-modal-header {
+            position: relative;
+            padding: 1.4rem 1.6rem;
+            overflow: hidden;
+            border: 0;
+            background: #0f172a;
+            color: #fff;
+        }
+
+        .project-modal-header::after {
+            position: absolute;
+            top: -74px;
+            right: 72px;
+            width: 190px;
+            height: 190px;
+            border: 42px solid rgba(255, 255, 255, 0.045);
+            border-radius: 50%;
+            content: '';
+            pointer-events: none;
+        }
+
+        .project-modal-heading {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .project-modal-icon {
+            display: grid;
+            width: 46px;
+            height: 46px;
+            flex: 0 0 46px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .project-modal-kicker {
+            margin-bottom: 0.15rem;
+            color: #94a3b8;
+            font-size: 0.66rem;
+            font-weight: 800;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .project-modal-header .modal-title {
+            margin-bottom: 0.12rem;
+            font-size: 1.15rem;
+            letter-spacing: -0.025em;
+        }
+
+        .project-modal-subtitle {
+            margin: 0;
+            color: #cbd5e1;
+            font-size: 0.78rem;
+        }
+
+        .project-modal-header .btn-close {
+            position: relative;
+            z-index: 2;
+            margin: 0;
+            padding: 0.72rem;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.9);
+            opacity: 0.85;
+        }
+
+        .project-modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+
+        .project-form-section,
+        .project-side-card {
+            padding: 1.25rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            background: #fff;
+        }
+
+        .project-form-section + .project-form-section,
+        .project-side-card + .project-side-card {
+            margin-top: 1rem;
+        }
+
+        .project-section-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.15rem;
+        }
+
+        .project-section-icon {
+            display: grid;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            place-items: center;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-size: 0.8rem;
+        }
+
+        .project-section-heading h6 {
+            margin: 0 0 0.1rem;
+            color: #0f172a;
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .project-section-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.72rem;
+        }
+
+        .project-modal-content .form-label {
+            margin-bottom: 0.4rem;
+            color: #334155;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .project-modal-content .form-control {
+            min-height: 45px;
+            border-color: #dbe2ea;
+            border-radius: 10px;
+            background-color: #fbfdff;
+            font-size: 0.83rem;
+        }
+
+        .project-modal-content textarea.form-control {
+            min-height: 108px;
+            line-height: 1.65;
+            resize: vertical;
+        }
+
+        .project-modal-content .form-control:focus {
+            border-color: #64748b;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.12);
+        }
+
+        .project-upload-zone {
+            display: block;
+            padding: 0.85rem;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 13px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: border-color 180ms ease, background 180ms ease;
+        }
+
+        .project-upload-zone:hover {
+            border-color: #64748b;
+            background: #f1f5f9;
+        }
+
+        .project-upload-empty {
+            display: grid;
+            min-height: 145px;
+            place-items: center;
+            text-align: center;
+        }
+
+        .project-upload-empty i {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 0.65rem;
+            place-items: center;
+            border-radius: 12px;
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .project-upload-empty strong {
+            display: block;
+            color: #0f172a;
+            font-size: 0.8rem;
+        }
+
+        .project-upload-empty span {
+            color: #64748b;
+            font-size: 0.68rem;
+        }
+
+        .project-thumbnail-preview {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            border-radius: 10px;
+            background: #e2e8f0;
+        }
+
+        .project-thumbnail-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-thumbnail-preview span {
+            position: absolute;
+            right: 0.55rem;
+            bottom: 0.55rem;
+            padding: 0.35rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.82);
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 700;
+            backdrop-filter: blur(6px);
+        }
+
+        .project-upload-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.75rem;
+            padding: 0.65rem 0.75rem;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #1e40af;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .project-divider-label {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin: 0.85rem 0;
+            color: #94a3b8;
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .project-divider-label::before,
+        .project-divider-label::after {
+            height: 1px;
+            flex: 1;
+            background: #e2e8f0;
+            content: '';
+        }
+
+        .project-toggle-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.8rem 0;
+        }
+
+        .project-toggle-card + .project-toggle-card {
+            border-top: 1px solid #eef2f6;
+        }
+
+        .project-toggle-copy strong {
+            display: block;
+            color: #0f172a;
+            font-size: 0.76rem;
+        }
+
+        .project-toggle-copy span {
+            display: block;
+            margin-top: 0.1rem;
+            color: #64748b;
+            font-size: 0.66rem;
+        }
+
+        .project-toggle-card .form-check-input {
+            width: 2.45rem;
+            height: 1.3rem;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .project-modal-footer {
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .project-modal-footer-note {
+            color: #64748b;
+            font-size: 0.7rem;
+        }
+
+        .project-modal-footer .btn {
+            min-width: 104px;
+        }
+
+        @media (min-width: 992px) {
+            .project-side-column {
+                position: sticky;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .project-modal-dialog {
+                margin: 0.75rem;
+            }
+
+            .project-modal-header,
+            .project-modal-body,
+            .project-modal-footer {
+                padding-right: 1rem;
+                padding-left: 1rem;
+            }
+
+            .project-modal-subtitle,
+            .project-modal-footer-note {
+                display: none;
+            }
+
+            .project-modal-icon {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+
+            .project-modal-footer {
+                gap: 0.65rem;
+            }
+
+            .project-modal-footer > div:last-child {
+                display: flex;
+                width: 100%;
+                gap: 0.65rem;
+            }
+
+            .project-modal-footer .btn {
+                flex: 1;
+            }
+        }
+
         @keyframes reveal {
             from {
                 opacity: 0;
@@ -1735,14 +2101,23 @@
         </div>
 
         <div class="modal fade" id="crudModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title fw-bold">{{ formState.isEdit ? 'Edit Entry' : 'Add Entry' }}</h5>
+            <div class="modal-dialog modal-dialog-centered"
+                :class="formState.type === 'projects' ? 'modal-xl project-modal-dialog' : 'modal-lg'">
+                <div class="modal-content" :class="{'project-modal-content': formState.type === 'projects'}">
+                    <div class="modal-header" :class="{'project-modal-header': formState.type === 'projects'}">
+                        <div v-if="formState.type === 'projects'" class="project-modal-heading">
+                            <div class="project-modal-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <div>
+                                <div class="project-modal-kicker">{{ formState.isEdit ? 'Update portfolio' : 'New portfolio item' }}</div>
+                                <h5 class="modal-title fw-bold">{{ formState.isEdit ? 'Edit project' : 'Add new project' }}</h5>
+                                <p class="project-modal-subtitle">Present the work, process, and links that make this project stand out.</p>
+                            </div>
+                        </div>
+                        <h5 v-else class="modal-title fw-bold">{{ formState.isEdit ? 'Edit Entry' : 'Add Entry' }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <form @submit.prevent="saveCrudData">
-                        <div class="modal-body">
+                        <div class="modal-body" :class="{'project-modal-body': formState.type === 'projects'}">
                             <div v-if="formState.type === 'skills'">
                                 <div class="mb-3"><label class="form-label">Skill Name</label><input type="text"
                                         class="form-control" v-model="formData.nama" required></div>
@@ -1752,50 +2127,149 @@
                             </div>
 
                             <div v-if="formState.type === 'projects'">
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">Project Title</label><input
-                                            type="text" class="form-control" v-model="formData.judul" required></div>
-                                    <div class="col-md-6"><label class="form-label">Category</label><input type="text"
-                                            class="form-control" placeholder="E.g. Web App / Rest API"
-                                            v-model="formData.kategori" required></div>
-                                    <div class="col-md-12">
-                                        <label class="form-label">Project Thumbnail</label>
-                                        <input type="file" class="form-control" accept="image/jpeg,image/png,image/webp,image/gif"
-                                            @change="uploadProjectImage" :disabled="uploadingImage">
-                                        <div class="form-text">JPG, PNG, WebP, atau GIF. Maksimal 5 MB.</div>
-                                        <div v-if="uploadingImage" class="small text-muted mt-2">
-                                            <span class="spinner-border spinner-border-sm me-2"></span>Uploading to R2...
+                                <div class="row g-4 align-items-start">
+                                    <div class="col-lg-8">
+                                        <section class="project-form-section">
+                                            <div class="project-section-heading">
+                                                <div class="project-section-icon"><i class="fa-solid fa-align-left"></i></div>
+                                                <div>
+                                                    <h6>Project details</h6>
+                                                    <p>Core information displayed on your portfolio.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-7">
+                                                    <label class="form-label" for="projectTitle">Project title</label>
+                                                    <input id="projectTitle" type="text" class="form-control"
+                                                        placeholder="e.g. Learning Management System"
+                                                        v-model="formData.judul" required>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label class="form-label" for="projectCategory">Category</label>
+                                                    <input id="projectCategory" type="text" class="form-control"
+                                                        placeholder="Web application" v-model="formData.kategori" required>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label" for="projectSummary">Short description</label>
+                                                    <input id="projectSummary" type="text" class="form-control"
+                                                        placeholder="A concise one-line summary of the project"
+                                                        v-model="formData.deskripsiSingkat" required>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label" for="projectDescription">Case study</label>
+                                                    <textarea id="projectDescription" class="form-control" rows="5"
+                                                        placeholder="Explain the problem, your approach, and the outcome..."
+                                                        v-model="formData.deskripsiLengkap"></textarea>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label" for="projectStack">Technology stack</label>
+                                                    <input id="projectStack" type="text" class="form-control"
+                                                        placeholder="Node.js, Vue.js, MySQL, Cloudflare R2"
+                                                        v-model="formData.teknologi" required>
+                                                    <div class="form-text">Separate each technology with a comma.</div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <section class="project-form-section">
+                                            <div class="project-section-heading">
+                                                <div class="project-section-icon"><i class="fa-solid fa-link"></i></div>
+                                                <div>
+                                                    <h6>Project links</h6>
+                                                    <p>Add destinations visitors can use to explore your work.</p>
+                                                </div>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="projectDemo"><i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Live demo</label>
+                                                    <input id="projectDemo" type="text" class="form-control"
+                                                        placeholder="https://..." v-model="formData.linkDemo">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="projectGithub"><i class="fa-brands fa-github me-1"></i> GitHub</label>
+                                                    <input id="projectGithub" type="text" class="form-control"
+                                                        placeholder="https://github.com/..." v-model="formData.linkGithub">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="projectDocs"><i class="fa-regular fa-file-lines me-1"></i> Documentation</label>
+                                                    <input id="projectDocs" type="text" class="form-control"
+                                                        placeholder="https://..." v-model="formData.linkDokumentasi">
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="project-side-column">
+                                            <section class="project-side-card">
+                                                <div class="project-section-heading">
+                                                    <div class="project-section-icon"><i class="fa-regular fa-image"></i></div>
+                                                    <div>
+                                                        <h6>Thumbnail</h6>
+                                                        <p>Recommended ratio 16:10.</p>
+                                                    </div>
+                                                </div>
+                                                <input id="projectThumbnail" type="file" class="d-none"
+                                                    accept="image/jpeg,image/png,image/webp,image/gif"
+                                                    @change="uploadProjectImage" :disabled="uploadingImage">
+                                                <label class="project-upload-zone" for="projectThumbnail">
+                                                    <div v-if="formData.thumbnail" class="project-thumbnail-preview">
+                                                        <img :src="formData.thumbnail" alt="Project thumbnail preview">
+                                                        <span><i class="fa-solid fa-arrows-rotate me-1"></i> Replace</span>
+                                                    </div>
+                                                    <div v-else class="project-upload-empty">
+                                                        <div>
+                                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                            <strong>Choose an image</strong>
+                                                            <span>JPG, PNG, WebP or GIF · max 5 MB</span>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <div v-if="uploadingImage" class="project-upload-progress">
+                                                    <span class="spinner-border spinner-border-sm"></span>
+                                                    Uploading image to R2...
+                                                </div>
+                                                <div class="project-divider-label">or use URL</div>
+                                                <input type="url" class="form-control" placeholder="https://image-url.com/..."
+                                                    aria-label="Project thumbnail URL" v-model="formData.thumbnail">
+                                            </section>
+
+                                            <section class="project-side-card">
+                                                <div class="project-section-heading mb-2">
+                                                    <div class="project-section-icon"><i class="fa-solid fa-sliders"></i></div>
+                                                    <div>
+                                                        <h6>Publishing</h6>
+                                                        <p>Control placement and visibility.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="project-toggle-card">
+                                                    <label class="project-toggle-copy" for="projectVisible">
+                                                        <strong>Show on website</strong>
+                                                        <span>Make this project public.</span>
+                                                    </label>
+                                                    <div class="form-check form-switch">
+                                                        <input id="projectVisible" type="checkbox" class="form-check-input"
+                                                            v-model="formData.statusTampil">
+                                                    </div>
+                                                </div>
+                                                <div class="project-toggle-card">
+                                                    <label class="project-toggle-copy" for="projectFeatured">
+                                                        <strong>Featured project</strong>
+                                                        <span>Highlight it in key sections.</span>
+                                                    </label>
+                                                    <div class="form-check form-switch">
+                                                        <input id="projectFeatured" type="checkbox" class="form-check-input"
+                                                            v-model="formData.featured">
+                                                    </div>
+                                                </div>
+                                                <div class="pt-3 border-top">
+                                                    <label class="form-label" for="projectOrder">Display order</label>
+                                                    <input id="projectOrder" type="number" class="form-control"
+                                                        min="0" placeholder="0" v-model="formData.urutan">
+                                                </div>
+                                            </section>
                                         </div>
-                                        <img v-if="formData.thumbnail" :src="formData.thumbnail"
-                                            class="img-fluid rounded border mt-3" alt="Project thumbnail preview"
-                                            style="max-height: 180px; object-fit: cover;">
-                                        <input type="url" class="form-control mt-2" placeholder="Or paste an image URL"
-                                            v-model="formData.thumbnail">
                                     </div>
-                                    <div class="col-md-12"><label class="form-label">Short Description</label><input
-                                            type="text" class="form-control" v-model="formData.deskripsiSingkat"
-                                            required></div>
-                                    <div class="col-md-12"><label class="form-label">Full Description (Case
-                                            Study)</label><textarea class="form-control" rows="3"
-                                            v-model="formData.deskripsiLengkap"></textarea></div>
-                                    <div class="col-md-12"><label class="form-label">Technology / Tech Stack (Comma
-                                            Separated)</label><input type="text" class="form-control"
-                                            placeholder="Node.js, React, MySQL" v-model="formData.teknologi" required>
-                                    </div>
-                                    <div class="col-md-4"><label class="form-label">Link Demo</label><input type="text"
-                                            class="form-control" v-model="formData.linkDemo"></div>
-                                    <div class="col-md-4"><label class="form-label">Link GitHub</label><input
-                                            type="text" class="form-control" v-model="formData.linkGithub"></div>
-                                    <div class="col-md-4"><label class="form-label">Documentation Link</label><input
-                                            type="text" class="form-control" v-model="formData.linkDokumentasi"></div>
-                                    <div class="col-md-4"><label class="form-label">Display Order</label><input
-                                            type="number" class="form-control" v-model="formData.urutan"></div>
-                                    <div class="col-md-4 mt-5 form-check"><input type="checkbox"
-                                            class="form-check-input" id="st" v-model="formData.statusTampil"><label
-                                            class="form-check-label" for="st">Show on Website</label></div>
-                                    <div class="col-md-4 mt-5 form-check"><input type="checkbox"
-                                            class="form-check-input" id="fp" v-model="formData.featured"><label
-                                            class="form-check-label" for="fp">Featured Project</label></div>
                                 </div>
                             </div>
 
@@ -1846,9 +2320,18 @@
                                 <label class="form-check-label fw-semibold" for="itemVisibility">Show this item on the landing page</label>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary" :disabled="uploadingImage">Save Entry</button>
+                        <div class="modal-footer" :class="{'project-modal-footer': formState.type === 'projects'}">
+                            <div v-if="formState.type === 'projects'" class="project-modal-footer-note">
+                                <i class="fa-solid fa-circle-info me-1"></i>
+                                Required fields must be completed before saving.
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-light border me-2" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary" :disabled="uploadingImage">
+                                    <span v-if="uploadingImage" class="spinner-border spinner-border-sm me-2"></span>
+                                    {{ formState.type === 'projects' ? (formState.isEdit ? 'Update project' : 'Create project') : 'Save Entry' }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
