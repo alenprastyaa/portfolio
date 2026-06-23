@@ -8,8 +8,8 @@ const cors = require('cors');
 const path = require('path');
 const crypto = require('crypto');
 const mysql = require('mysql2/promise');
-const multer = require('multer');
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
@@ -48,7 +48,7 @@ async function initDB() {
 }
 
 // 2. MODELS DEFINITION
-let User, Hero, Profil, Skill, Project, Pengalaman, Layanan, Testimoni, Artikel, Kontak, Pengaturan;
+let User, Hero, Profil, Skill, Project, Pengalaman, Layanan, Testimoni, Artikel, Kontak, Pengaturan, PesanKontak;
 
 function defineModels() {
     User = sequelize.define('User', {
@@ -98,6 +98,12 @@ function defineModels() {
         statusTampil: { type: DataTypes.BOOLEAN, defaultValue: true }
     });
     Kontak = sequelize.define('Kontak', { whatsapp: DataTypes.STRING, email: DataTypes.STRING, linkedin: DataTypes.STRING, github: DataTypes.STRING, lokasi: DataTypes.STRING });
+    PesanKontak = sequelize.define('PesanKontak', {
+        nama: { type: DataTypes.STRING(100), allowNull: false },
+        email: { type: DataTypes.STRING(254), allowNull: false },
+        pesan: { type: DataTypes.TEXT, allowNull: false },
+        status: { type: DataTypes.STRING(20), allowNull: false, defaultValue: 'baru' }
+    });
     Pengaturan = sequelize.define('Pengaturan', {
         namaWebsite: DataTypes.STRING,
         logo: DataTypes.STRING,
@@ -144,23 +150,36 @@ const authenticateOptional = (req, res, next) => {
     authenticateToken(req, res, next);
 };
 
-// Image upload to Cloudflare R2. Files stay in memory only until sent to R2.
+const contactAttemptWindow = new Map();
+const CONTACT_WINDOW_MS = 15 * 60 * 1000;
+setInterval(() => {
+    const cutoff = Date.now() - CONTACT_WINDOW_MS;
+    for (const [key, attempts] of contactAttemptWindow.entries()) {
+        const recentAttempts = attempts.filter(time => time > cutoff);
+        if (recentAttempts.length) contactAttemptWindow.set(key, recentAttempts);
+        else contactAttemptWindow.delete(key);
+    }
+}, CONTACT_WINDOW_MS).unref();
+
+const contactRateLimit = (req, res, next) => {
+    const now = Date.now();
+    const key = req.headers['cf-connecting-ip'] || req.ip;
+    const recentAttempts = (contactAttemptWindow.get(key) || []).filter(time => now - time < CONTACT_WINDOW_MS);
+    if (recentAttempts.length >= 5) {
+        return res.status(429).json({ message: 'Terlalu banyak pesan. Silakan coba lagi nanti.' });
+    }
+    recentAttempts.push(now);
+    contactAttemptWindow.set(key, recentAttempts);
+    next();
+};
+
+// Image types allowed for direct browser uploads to Cloudflare R2.
 const allowedImageTypes = new Map([
     ['image/jpeg', 'jpg'],
     ['image/png', 'png'],
     ['image/webp', 'webp'],
     ['image/gif', 'gif']
 ]);
-const imageUpload = multer({
-    storage: multer.memoryStorage(),
-    limits: { fileSize: 5 * 1024 * 1024, files: 1 },
-    fileFilter: (req, file, callback) => {
-        if (!allowedImageTypes.has(file.mimetype)) {
-            return callback(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'image'));
-        }
-        callback(null, true);
-    }
-});
 
 function getR2Config() {
     const config = {
@@ -182,55 +201,49 @@ function buildPublicImageUrl(baseUrl, objectKey) {
 
 // 4. API ROUTES
 
-app.post('/api/uploads/images', authenticateToken, (req, res) => {
-    imageUpload.single('image')(req, res, async (uploadError) => {
-        if (uploadError) {
-            const isSizeError = uploadError.code === 'LIMIT_FILE_SIZE';
-            return res.status(400).json({
-                message: isSizeError
-                    ? 'Ukuran gambar maksimal 5 MB'
-                    : 'File harus berupa JPG, PNG, WebP, atau GIF'
-            });
+app.post('/api/uploads/images/presign', authenticateToken, async (req, res) => {
+    try {
+        const { fileType, fileSize } = req.body;
+        if (!allowedImageTypes.has(fileType)) {
+            return res.status(400).json({ message: 'File harus berupa JPG, PNG, WebP, atau GIF' });
         }
-        if (!req.file) return res.status(400).json({ message: 'File gambar wajib dipilih' });
-
-        try {
-            const config = getR2Config();
-            const now = new Date();
-            const objectKey = [
-                'portfolio',
-                'projects',
-                String(now.getUTCFullYear()),
-                String(now.getUTCMonth() + 1).padStart(2, '0'),
-                `${crypto.randomUUID()}.${allowedImageTypes.get(req.file.mimetype)}`
-            ].join('/');
-            const r2 = new S3Client({
-                region: 'auto',
-                endpoint: config.endpoint,
-                credentials: {
-                    accessKeyId: config.accessKeyId,
-                    secretAccessKey: config.secretAccessKey
-                }
-            });
-
-            await r2.send(new PutObjectCommand({
-                Bucket: config.bucket,
-                Key: objectKey,
-                Body: req.file.buffer,
-                ContentType: req.file.mimetype,
-                CacheControl: 'public, max-age=31536000, immutable'
-            }));
-
-            res.status(201).json({
-                message: 'Gambar berhasil diunggah',
-                key: objectKey,
-                url: buildPublicImageUrl(config.publicBaseUrl, objectKey)
-            });
-        } catch (error) {
-            console.error('R2 upload failed:', error.message);
-            res.status(502).json({ message: 'Gagal mengunggah gambar ke penyimpanan' });
+        if (!Number.isFinite(fileSize) || fileSize <= 0 || fileSize > 5 * 1024 * 1024) {
+            return res.status(400).json({ message: 'Ukuran gambar maksimal 5 MB' });
         }
-    });
+
+        const config = getR2Config();
+        const now = new Date();
+        const objectKey = [
+            'portfolio',
+            'projects',
+            String(now.getUTCFullYear()),
+            String(now.getUTCMonth() + 1).padStart(2, '0'),
+            `${crypto.randomUUID()}.${allowedImageTypes.get(fileType)}`
+        ].join('/');
+        const r2 = new S3Client({
+            region: 'auto',
+            endpoint: config.endpoint,
+            credentials: {
+                accessKeyId: config.accessKeyId,
+                secretAccessKey: config.secretAccessKey
+            }
+        });
+        const uploadUrl = await getSignedUrl(r2, new PutObjectCommand({
+            Bucket: config.bucket,
+            Key: objectKey,
+            ContentType: fileType
+        }), { expiresIn: 300 });
+
+        res.json({
+            uploadUrl,
+            key: objectKey,
+            url: buildPublicImageUrl(config.publicBaseUrl, objectKey),
+            expiresIn: 300
+        });
+    } catch (error) {
+        console.error('R2 presign failed:', error.message);
+        res.status(502).json({ message: 'URL upload R2 tidak dapat dibuat' });
+    }
 });
 
 // Auth
@@ -278,11 +291,82 @@ app.put('/api/auth/password', authenticateToken, async (req, res) => {
     }
 });
 
+app.post('/api/messages', contactRateLimit, async (req, res) => {
+    try {
+        const { nama, email, pesan, website } = req.body;
+
+        // Honeypot: bot biasanya mengisi input tersembunyi ini.
+        if (website) return res.status(201).json({ message: 'Pesan berhasil dikirim' });
+
+        const cleanName = typeof nama === 'string' ? nama.trim() : '';
+        const cleanEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+        const cleanMessage = typeof pesan === 'string' ? pesan.trim() : '';
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (cleanName.length < 2 || cleanName.length > 100) {
+            return res.status(400).json({ message: 'Nama harus terdiri dari 2–100 karakter' });
+        }
+        if (cleanEmail.length > 254 || !emailPattern.test(cleanEmail)) {
+            return res.status(400).json({ message: 'Alamat email tidak valid' });
+        }
+        if (cleanMessage.length < 10 || cleanMessage.length > 5000) {
+            return res.status(400).json({ message: 'Pesan harus terdiri dari 10–5000 karakter' });
+        }
+
+        await PesanKontak.create({ nama: cleanName, email: cleanEmail, pesan: cleanMessage });
+        res.status(201).json({ message: 'Pesan berhasil dikirim' });
+    } catch (error) {
+        console.error('Contact message failed:', error.message);
+        res.status(500).json({ message: 'Pesan tidak dapat dikirim' });
+    }
+});
+
+app.get('/api/messages', authenticateToken, async (req, res) => {
+    try {
+        const search = typeof req.query.search === 'string' ? req.query.search.trim() : '';
+        const status = req.query.status;
+        const where = {};
+        if (['baru', 'dibaca'].includes(status)) where.status = status;
+        if (search) {
+            where[Op.or] = [
+                { nama: { [Op.like]: `%${search}%` } },
+                { email: { [Op.like]: `%${search}%` } },
+                { pesan: { [Op.like]: `%${search}%` } }
+            ];
+        }
+
+        const messages = await PesanKontak.findAll({ where, order: [['createdAt', 'DESC']], limit: 200 });
+        const unread = await PesanKontak.count({ where: { status: 'baru' } });
+        res.json({ data: messages, unread });
+    } catch (error) {
+        console.error('Load messages failed:', error.message);
+        res.status(500).json({ message: 'Pesan tidak dapat dimuat' });
+    }
+});
+
+app.patch('/api/messages/:id', authenticateToken, async (req, res) => {
+    const status = req.body.status;
+    if (!['baru', 'dibaca'].includes(status)) {
+        return res.status(400).json({ message: 'Status pesan tidak valid' });
+    }
+    const message = await PesanKontak.findByPk(req.params.id);
+    if (!message) return res.status(404).json({ message: 'Pesan tidak ditemukan' });
+    await message.update({ status });
+    res.json({ message: 'Status pesan diperbarui' });
+});
+
+app.delete('/api/messages/:id', authenticateToken, async (req, res) => {
+    const message = await PesanKontak.findByPk(req.params.id);
+    if (!message) return res.status(404).json({ message: 'Pesan tidak ditemukan' });
+    await message.destroy();
+    res.json({ message: 'Pesan dihapus' });
+});
+
 // Dashboard statistics API for Chart.js
 app.get('/api/dashboard/stats', authenticateToken, async (req, res) => {
     res.json({
-        labels: ['Skills', 'Projects', 'Experience', 'Services', 'Testimonials', 'Articles'],
-        barData: [await Skill.count(), await Project.count(), await Pengalaman.count(), await Layanan.count(), await Testimoni.count(), await Artikel.count()],
+        labels: ['Skills', 'Projects', 'Experience', 'Services', 'Testimonials', 'Articles', 'Messages'],
+        barData: [await Skill.count(), await Project.count(), await Pengalaman.count(), await Layanan.count(), await Testimoni.count(), await Artikel.count(), await PesanKontak.count()],
         lineData: [5, 12, 19, 25, 28, 35], // Placeholder monthly project growth
         areaData: [100, 250, 400, 600, 850, 1100] // Placeholder cumulative views
     });

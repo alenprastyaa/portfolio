@@ -861,6 +861,12 @@
             border-radius: 18px;
         }
 
+        .message-dialog-text {
+            text-align: left !important;
+            white-space: pre-wrap;
+            line-height: 1.7;
+        }
+
         .landing-page .timeline {
             max-width: 760px;
             margin-right: auto;
@@ -1257,15 +1263,19 @@
                             <p><i class="fa-solid fa-location-dot text-warning me-2"></i> {{ kontak.lokasi }}</p>
                         </div>
                         <div class="col-md-7">
-                            <form
-                                @submit.prevent="Swal.fire('Success', 'Your message has been sent (simulation).', 'success')">
+                            <form @submit.prevent="submitContactMessage">
+                                <input type="text" v-model="contactForm.website" tabindex="-1" autocomplete="off"
+                                    aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;">
                                 <div class="mb-3"><input type="text" class="form-control" placeholder="Your name"
-                                        required></div>
+                                        v-model.trim="contactForm.nama" minlength="2" maxlength="100" required></div>
                                 <div class="mb-3"><input type="email" class="form-control" placeholder="Your email"
-                                        required></div>
+                                        v-model.trim="contactForm.email" maxlength="254" required></div>
                                 <div class="mb-3"><textarea class="form-control" rows="4" placeholder="Your message"
-                                        required></textarea></div>
-                                <button type="submit" class="btn btn-warning px-4">Send Message</button>
+                                        v-model.trim="contactForm.pesan" minlength="10" maxlength="5000" required></textarea></div>
+                                <button type="submit" class="btn btn-warning px-4" :disabled="sendingMessage">
+                                    <span v-if="sendingMessage" class="spinner-border spinner-border-sm me-2"></span>
+                                    {{ sendingMessage ? 'Sending...' : 'Send Message' }}
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -1320,6 +1330,7 @@
                             <a href="#" class="nav-link" :class="{active: activeMenu === menu}"
                                 @click.prevent="setMenu(menu)">
                                 <i class="fa fa-angle-right me-2"></i>{{ menu }}
+                                <span v-if="menu === 'Messages' && unreadMessages" class="badge bg-danger ms-2">{{ unreadMessages }}</span>
                             </a>
                         </li>
                         <li class="nav-item mt-4">
@@ -1610,6 +1621,61 @@
                         </div>
                     </div>
 
+                    <div v-if="activeMenu === 'Messages'">
+                        <div class="d-flex flex-wrap gap-2 justify-content-between mb-3">
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn" :class="messageStatus === '' ? 'btn-dark' : 'btn-outline-dark'"
+                                    @click="messageStatus = ''; fetchMessages()">All</button>
+                                <button class="btn" :class="messageStatus === 'baru' ? 'btn-dark' : 'btn-outline-dark'"
+                                    @click="messageStatus = 'baru'; fetchMessages()">Unread</button>
+                                <button class="btn" :class="messageStatus === 'dibaca' ? 'btn-dark' : 'btn-outline-dark'"
+                                    @click="messageStatus = 'dibaca'; fetchMessages()">Read</button>
+                            </div>
+                            <input type="search" class="form-control form-control-sm" style="max-width:280px"
+                                placeholder="Search messages..." v-model.trim="messageSearch" @input="fetchMessages">
+                        </div>
+                        <div class="cms-panel-card table-responsive">
+                            <table class="table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Sender</th>
+                                        <th>Message</th>
+                                        <th>Received</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="message in messagesData.data" :key="message.id"
+                                        :class="{'table-light': message.status === 'baru'}">
+                                        <td>
+                                            <div class="fw-bold">{{ message.nama }}</div>
+                                            <a :href="`mailto:${message.email}`" class="small">{{ message.email }}</a>
+                                        </td>
+                                        <td style="min-width:280px;max-width:460px">
+                                            <div class="text-truncate">{{ message.pesan }}</div>
+                                        </td>
+                                        <td class="small text-muted text-nowrap">{{ formatMessageDate(message.createdAt) }}</td>
+                                        <td><span class="badge" :class="message.status === 'baru' ? 'bg-danger' : 'bg-secondary'">
+                                            {{ message.status === 'baru' ? 'Unread' : 'Read' }}
+                                        </span></td>
+                                        <td class="text-nowrap">
+                                            <button class="btn btn-sm btn-primary me-1" @click="openContactMessage(message)">Open</button>
+                                            <button class="btn btn-sm btn-outline-secondary me-1"
+                                                @click="toggleMessageStatus(message)">
+                                                {{ message.status === 'baru' ? 'Mark read' : 'Mark unread' }}
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" @click="deleteContactMessage(message.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="!messagesData.data.length">
+                                        <td colspan="5" class="text-center text-muted py-5">No messages found.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div v-if="activeMenu === 'Website Settings'">
                         <div class="cms-panel-card">
                             <form @submit.prevent="updateSingleton('pengaturan', cmsData.pengaturan)">
@@ -1805,7 +1871,7 @@
                     isAdminView: false,
                     token: localStorage.getItem('token') || '',
                     activeMenu: 'Dashboard',
-                    menus: ['Dashboard', 'Hero', 'Profile', 'Skills', 'Project Portfolio', 'Experience', 'Services', 'Testimonials', 'Articles', 'Contact', 'Website Settings', 'Admin'],
+                    menus: ['Dashboard', 'Hero', 'Profile', 'Skills', 'Project Portfolio', 'Experience', 'Services', 'Testimonials', 'Articles', 'Contact', 'Messages', 'Website Settings', 'Admin'],
                     landingSectionOptions: [
                         { key: 'showHero', label: 'Hero' },
                         { key: 'showProfil', label: 'About / Profile' },
@@ -1825,6 +1891,8 @@
                     projectQuery: { page: 1, limit: 6, search: '' },
 
                     clientSkills: [], clientPengalaman: [], clientLayanan: [], clientTestimoni: [], clientArtikel: [],
+                    contactForm: { nama: '', email: '', pesan: '', website: '' },
+                    sendingMessage: false,
 
                     // Auth State
                     loginForm: { username: '', password: '' },
@@ -1837,6 +1905,10 @@
                     cmsData: { hero: {}, profil: {}, kontak: {}, pengaturan: {} },
                     tableData: { projects: {}, skills: {}, pengalaman: {}, layanan: {}, testimoni: {}, artikel: {} },
                     searchQueries: { projects: '', skills: '', pengalaman: '', layanan: '', testimoni: '', artikel: '' },
+                    messagesData: { data: [], unread: 0 },
+                    messageSearch: '',
+                    messageStatus: '',
+                    unreadMessages: 0,
 
                     // Modal Dynamic Form State
                     formState: { isEdit: false, type: '', currentId: null },
@@ -1860,6 +1932,25 @@
                         .split(/\r?\n|[,;•]+/)
                         .map(item => item.trim())
                         .filter(Boolean);
+                },
+                async submitContactMessage() {
+                    this.sendingMessage = true;
+                    try {
+                        const res = await fetch('/api/messages', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.contactForm)
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Message could not be sent');
+
+                        this.contactForm = { nama: '', email: '', pesan: '', website: '' };
+                        Swal.fire('Message Sent', 'Thank you. Your message has been delivered.', 'success');
+                    } catch (error) {
+                        Swal.fire('Send Failed', error.message, 'error');
+                    } finally {
+                        this.sendingMessage = false;
+                    }
                 },
                 async loadClientLandingData() {
                     try {
@@ -1928,6 +2019,7 @@
 
                         this.sessionValidated = true;
                         this.scheduleSessionExpiry();
+                        this.fetchMessages();
                         return true;
                     } catch (error) {
                         this.isAdminView = false;
@@ -1951,6 +2043,7 @@
                     const hadToken = !!this.token;
                     this.token = '';
                     this.sessionValidated = false;
+                    this.unreadMessages = 0;
                     localStorage.removeItem('token');
                     if (this.authTimer) clearTimeout(this.authTimer);
                     this.authTimer = null;
@@ -1988,6 +2081,7 @@
                         localStorage.setItem('token', data.token);
                         this.sessionValidated = true;
                         this.scheduleSessionExpiry();
+                        this.fetchMessages();
                         Swal.fire('Welcome', 'You are now signed in to the CMS.', 'success');
                         this.initCmsLayout();
                     } catch (err) {
@@ -2033,12 +2127,88 @@
                 initCmsLayout() {
                     // Load content bases on active CMS navigation selection
                     if (this.activeMenu === 'Dashboard') this.loadDashboardCharts();
+                    else if (this.activeMenu === 'Messages') this.fetchMessages();
                     else if (['Hero', 'Profile', 'Contact', 'Website Settings'].includes(this.activeMenu)) {
                         const mapper = { 'Hero': 'hero', 'Profile': 'profil', 'Contact': 'kontak', 'Website Settings': 'pengaturan' };
                         this.authFetch(`/api/${mapper[this.activeMenu]}`).then(res => res.json()).then(data => this.cmsData[mapper[this.activeMenu]] = data);
                     } else {
                         const mapper = { 'Skills': 'skills', 'Project Portfolio': 'projects', 'Experience': 'pengalaman', 'Services': 'layanan', 'Testimonials': 'testimoni', 'Articles': 'artikel' };
                         this.fetchTableData(mapper[this.activeMenu]);
+                    }
+                },
+                async fetchMessages() {
+                    try {
+                        const params = new URLSearchParams();
+                        if (this.messageSearch) params.set('search', this.messageSearch);
+                        if (this.messageStatus) params.set('status', this.messageStatus);
+                        const res = await this.authFetch(`/api/messages?${params.toString()}`);
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Messages could not be loaded');
+                        this.messagesData = data;
+                        this.unreadMessages = data.unread || 0;
+                    } catch (error) {
+                        if (!this.token) return;
+                        console.error('Failed to load messages:', error);
+                    }
+                },
+                formatMessageDate(value) {
+                    if (!value) return '-';
+                    return new Intl.DateTimeFormat('id-ID', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                    }).format(new Date(value));
+                },
+                async openContactMessage(message) {
+                    await Swal.fire({
+                        titleText: message.nama,
+                        text: `${message.email}\n\n${message.pesan}`,
+                        confirmButtonText: 'Close',
+                        customClass: { htmlContainer: 'message-dialog-text' }
+                    });
+                    if (message.status === 'baru') {
+                        await this.updateMessageStatus(message.id, 'dibaca');
+                    }
+                },
+                async updateMessageStatus(id, status) {
+                    try {
+                        const res = await this.authFetch(`/api/messages/${id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ status })
+                        });
+                        if (!res.ok) {
+                            const data = await res.json();
+                            throw new Error(data.message || 'Status could not be updated');
+                        }
+                        await this.fetchMessages();
+                    } catch (error) {
+                        if (!this.token) return;
+                        Swal.fire('Update Failed', error.message, 'error');
+                    }
+                },
+                toggleMessageStatus(message) {
+                    const nextStatus = message.status === 'baru' ? 'dibaca' : 'baru';
+                    this.updateMessageStatus(message.id, nextStatus);
+                },
+                async deleteContactMessage(id) {
+                    const result = await Swal.fire({
+                        title: 'Delete this message?',
+                        text: 'This action cannot be undone.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Delete'
+                    });
+                    if (!result.isConfirmed) return;
+
+                    try {
+                        const res = await this.authFetch(`/api/messages/${id}`, { method: 'DELETE' });
+                        if (!res.ok) throw new Error('Message could not be deleted');
+                        await this.fetchMessages();
+                        Swal.fire('Deleted', 'The message has been deleted.', 'success');
+                    } catch (error) {
+                        if (!this.token) return;
+                        Swal.fire('Delete Failed', error.message, 'error');
                     }
                 },
                 async updateSingleton(endpoint, payload) {
@@ -2076,19 +2246,34 @@
                 async uploadProjectImage(event) {
                     const file = event.target.files?.[0];
                     if (!file) return;
+                    if (file.size > 5 * 1024 * 1024) {
+                        event.target.value = '';
+                        return Swal.fire('Upload Failed', 'Image size must not exceed 5 MB.', 'error');
+                    }
 
                     this.uploadingImage = true;
                     try {
-                        const body = new FormData();
-                        body.append('image', file);
-                        const res = await this.authFetch('/api/uploads/images', {
+                        // The application server only signs this request; the image never passes through it.
+                        const signResponse = await this.authFetch('/api/uploads/images/presign', {
                             method: 'POST',
-                            body
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ fileType: file.type, fileSize: file.size })
                         });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data.message || 'Upload failed');
+                        const signedData = await signResponse.json();
+                        if (!signResponse.ok) throw new Error(signedData.message || 'Upload authorization failed');
 
-                        this.formData.thumbnail = data.url;
+                        const uploadResponse = await fetch(signedData.uploadUrl, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': file.type },
+                            body: file
+                        });
+                        if (!uploadResponse.ok) {
+                            throw new Error(uploadResponse.status === 403
+                                ? 'R2 rejected the upload. Check the bucket CORS policy.'
+                                : 'The image could not be uploaded directly to R2.');
+                        }
+
+                        this.formData.thumbnail = signedData.url;
                         Swal.fire('Uploaded', 'The image has been uploaded to R2.', 'success');
                     } catch (error) {
                         event.target.value = '';
